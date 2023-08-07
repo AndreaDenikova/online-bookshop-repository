@@ -2,9 +2,8 @@
 {
     using System.Linq;
 
-    using OnlineBookshop.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+    using OnlineBookshop.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

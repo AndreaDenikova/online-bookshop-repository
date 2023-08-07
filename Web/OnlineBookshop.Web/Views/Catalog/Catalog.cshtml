@@ -1,0 +1,141 @@
+﻿@model List<OnlineBookshop.Data.Models.Book>;
+@using OnlineBookshop.Common
+@{
+    this.ViewData["Title"] = "Catalog";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width= , initial-scale=1.0">
+    <title>Categories</title>
+    <link rel="stylesheet" href="~/css/catalog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="catalog-wrapper">
+        <div>
+            <div class="categories-wrapper">
+                <div class="categories-left-section">
+                    <div>
+                        <form class="form-search-box">
+                            <input id="search" type="search" placeholder="Author, Book" pattern=".*\S.*" required>
+                            <span class="caret"></span>
+                            <input type="submit" value="Go" class="search-button">
+                        </form>
+                    </div>
+                    <fieldset class="checkbox-group">
+                        <legend class="checkbox-group-legend">Choose book genres</legend>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <img class="categories-icons" src="~/images/castle.png" alt="horror">
+                                    </span>
+                                    <span class="checkbox-label">Horror</span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <img class="categories-icons" src="~/images/hearts.png" alt="romance">
+                                    </span>
+                                    <span class="checkbox-label">Romance</span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <img class="categories-icons" src="~/images/dragon.png" alt="fantasy">
+                                    </span>
+                                    <span class="checkbox-label">Fantasy</span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <img class="categories-icons" src="~/images/star.png" alt="western">
+                                    </span>
+                                    <span class="checkbox-label">Western</span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <img class="categories-icons" src="~/images/investigation.png" alt="detective">
+                                    </span>
+                                    <span class="checkbox-label">Detective</span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <img class="categories-icons" src="~/images/museum.png" alt="historical">
+                                    </span>
+                                    <span class="checkbox-label">Historical</span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <img class="categories-icons" src="~/images/abduction.png" alt="sci-fi">
+                                    </span>
+                                    <span class="checkbox-label">Sci-Fi</span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox-input" />
+                                <span class="checkbox-tile">
+                                    <span class="checkbox-icon">
+                                        <img class="categories-icons" src="~/images/chick.png" alt="chickflick">
+                                    </span>
+                                    <span class="checkbox-label">Chickflick</span>
+                                </span>
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="categroies-right-section">
+                    @foreach (var book in Model)
+                    {
+                        <div class="book-info-summary">
+                            <img src="@book.Cover" class="book-cover" alt="cover">
+                            <div class="book-short-info">
+                                <div class="book-title">@book.Title</div>
+                                <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.Author.FirstName} {a.Author.LastName}"))</div>
+                                <div class="book-price">$@book.Price</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

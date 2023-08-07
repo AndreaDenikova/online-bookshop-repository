@@ -1,0 +1,109 @@
+﻿@using OnlineBookshop.Common
+@model OnlineBookshop.Web.ViewModels.ViewModels.NewBookViewModel
+@{
+    this.ViewData["Title"] = "NewBook";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/new-book.css">
+    <link rel="stylesheet" href="~/css/catalog.css">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-field pointer">
+            <label for="cover-file" class="pointer">
+                <div>Add cover</div>
+                <img src="~/images/gallery.png" alt="" class="upload-cover-icon">
+            </label>
+            <input id="cover-file" type="file" name="cover" accept=".jpg,.jpeg,.png" onchange="onuploaded()" hidden>
+            <div id="successfully-uploaded-message"></div>
+            <div id="upload-error" hidden>Wrong file type. Please select a .jpg, .jpeg or .png file.</div>
+        </div>
+        <div class="form-field">
+            <label for="title">Title</label>
+            <input asp-for="InputModel.Title" type="text" id="title" name="title">
+        </div>
+        <div class="form-field">
+            <label for="author">Author</label>
+            <select asp-for="InputModel.AuthorId" id="author" name="authorId">
+                @foreach (var author in Model.Authors)
+                {
+                    <option value="@author.Id">@author.FirstName @author.LastName</option>
+                }
+            </select>
+        </div>
+        <div class="form-field">
+            <label for="publisher">Publisher</label>
+            <input asp-for="InputModel.Publisher" type="text" id="publisher" name="publisher">
+        </div>
+        <div class="form-field">
+            <fieldset class="checkbox-group">
+                <legend class="checkbox-group-legend">Choose book genres</legend>
+                @foreach (var genre in Model.Genres)
+                {
+                    <div class="checkbox">
+                        <label class="checkbox-wrapper">
+                            <input name="GenreIds" value="@genre.Id" type="checkbox" class="checkbox-input" />
+                            <span class="checkbox-tile">
+                                <span class="checkbox-icon">
+                                    <img class="categories-icons" src="@genre.Picture" alt="horror">
+                                </span>
+                                <span class="checkbox-label">@genre.Name</span>
+                            </span>
+                        </label>
+                    </div>
+                }
+            </fieldset>
+        </div>
+        <div class="form-field">
+            <label for="pages">Pages</label>
+            <input asp-for="InputModel.Pages" type="number" id="pages" name="pages">
+        </div>
+        <div class="form-field">
+            <label for="year">Year</label>
+            <input asp-for="InputModel.Year" type="number" id="year" name="year">
+        </div>
+        <div class="form-field">
+            <label for="description">Description</label>
+            <textarea asp-for="InputModel.Description" name="description" name="description" rows="8"></textarea>
+        </div>
+        <div class="form-field">
+            <label for="price">Price</label>
+            <input asp-for="InputModel.Price" type="number" id="price" name="price">
+        </div>
+        <div class="form-field">
+            <label for="language">Language</label>
+            <select asp-for="InputModel.LanguageId" id="language" name="languageId">
+                @foreach (var language in Model.Languages)
+                {
+                    <option value="@language.Id">@language.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-field">
+            <input type="submit" value="Add">
+        </div>
+    </form>
+</body>
+</html>
+
+<script>
+    function onuploaded(){
+        document.getElementById('upload-error').hidden = true;
+
+        var file = document.getElementById('cover-file').files[0];
+
+        if(file.type != 'image/png' && file.type != 'image/jpeg'){
+            document.getElementById('successfully-uploaded-message').innerHTML = "";
+            document.getElementById('upload-error').hidden = false;
+            return;
+        }
+
+        document.getElementById('successfully-uploaded-message').innerHTML = 'Successfully uploaded ' + file.name;
+    }
+</script>

@@ -6,11 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using OnlineBookshop.Data.Common.Models;
-    using OnlineBookshop.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using OnlineBookshop.Data.Common.Models;
+    using OnlineBookshop.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -25,6 +24,20 @@
         }
 
         public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<UserInfo> UserInfo { get; set; }
+
+        public DbSet<Book> Book { get; set; }
+
+        public DbSet<Genre> Genre { get; set; }
+
+        public DbSet<GenreBook> GenreBook { get; set; }
+
+        public DbSet<Language> Language { get; set; }
+
+        public DbSet<Author> Author { get; set; }
+
+        public DbSet<AuthorBook> AuthorBook { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -47,6 +60,12 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<AuthorBook>()
+                .HasKey(e => new { e.AuthorId, e.BookId });
+
+            builder.Entity<GenreBook>()
+                .HasKey(f => new { f.GenreId, f.BookId });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 

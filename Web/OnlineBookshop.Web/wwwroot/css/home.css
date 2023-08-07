@@ -1,0 +1,32 @@
+﻿/* banner */
+
+.banner {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-image: url("/images/index-banner.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    margin: 0;
+    height: 350px;
+}
+
+    .banner h1 {
+        font-family: 'Uchen', serif;
+        color: #003049;
+        text-shadow: 1px 1px 5px grey;
+        font-size: 30px;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+/* first-empty-space */
+
+.empty-space {
+    height: 10px;
+    background-color: #E8AA8C;
+    margin: 0;
+}
+
+/* second-empty-space */

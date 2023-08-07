@@ -6,46 +6,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
+    <header class="site-header">
+        <section class="logo-wrapper">
+            <img src="~/images/logo_transparent.png" alt="logo">
+        </section>
+
+        <section class="navigation-wrapper">
+            <nav class="site-navigation">
+                <ul class="navigation-items">
+                    <li class="navigation-item"><a asp-controller="Home" asp-action="Index" asp-area="">Home</a></li>
+                    @* @if (User.Identity.IsAuthenticated)
+                        {*@
+                    <li class="navigation-item"><a asp-controller="Catalog" asp-action="Catalog">Catalog</a></li>
+                    <li class="navigation-item"><a asp-controller="Book" asp-action="NewBook">Add Book</a></li>
+                    @*<a href="#news">News</a>*@
+                   @* <li class="navigation-item">
+                        <a href="#0">Widgets</a>
+                        <ol class="sub-menu">
+                            <li class="menu-item"><a href="#0">Big Widgets</a></li>
+                            <li class="menu-item"><a href="#0">Bigger Widgets</a></li>
+                            <li class="menu-item"><a href="#0">Huge Widgets</a></li>
+                        </ol>
+                    </li>*@
+                    @*}*@
+                </ul>
+            </nav>
+            <section class="user-login-signin-cart">
+                @if (User.Identity.IsAuthenticated)
+                {
+                }
+                else
+                {
+                    <button class="log-out" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">Logout</button>
+                    <button class="register" asp-area="Identity" asp-page="/Account/Register">Register</button>
+                    <button class="log-in" asp-area="Identity" asp-page="/Account/Login">Log in</button>
+                    <img class="shopping-cart" src="~/images/shopping.png">
+                }
+            </section>
+        </section>
     </header>
-    
+
     <div class="container">
-        <partial name="_CookieConsentPartial" />
+        @*<partial name="_CookieConsentPartial" />*@
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
-    
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+
+    <footer class="page-footer">
+        <section class="useful-links">
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                <li><a asp-area="Identity" asp-page="/Account/Login">Log in</a></li>
+            </ul>
+        </section>
+        <section class="share-via">
+            <ul>
+                <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
+                <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
+            </ul>
+        </section>
+        <section class="copyright">
+            <p>©2023 Andrea Denikova All Rights Reserved</p>
+        </section>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>

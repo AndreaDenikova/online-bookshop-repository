@@ -1,0 +1,304 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+body {
+    font-family: 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* header */
+
+.site-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #14213d;
+    max-height: 150px;
+}
+
+    .site-header .logo-wrapper img {
+        max-height: 150px;
+        padding: 10px 20px;
+    }
+
+.shopping-cart {
+    max-height: 40px;
+}
+
+.navigation-wrapper {
+    display: flex;
+}
+
+.navigation-items {
+    display: flex;
+    list-style: none;
+    margin: 0;
+}
+
+.site-navigation {
+    height: 100%;
+    margin: 0;
+}
+
+.navigation-items .navigation-item {
+    margin: 15px;
+    border-radius: 5px;
+    padding: 12px 18px;
+}
+
+    .navigation-items .navigation-item:nth-child(1) {
+        background-color: #E8AA8C;
+    }
+
+        .navigation-items .navigation-item:nth-child(1) a {
+            color: white;
+        }
+
+    .navigation-items .navigation-item a {
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+        color: #E8AA8C;
+    }
+
+    .navigation-items .navigation-item:hover {
+        background-color: #006d77;
+        cursor: pointer;
+    }
+
+        .navigation-items .navigation-item:hover a {
+            color: white;
+        }
+
+    .navigation-items .navigation-item:nth-child(1):hover {
+        background-color: #e5b49b;
+    }
+
+/* SignUp/LogIn button */
+
+.user-login-signup {
+    margin-left: 40px;
+}
+
+@-webkit-keyframes hvr-pulse-shrink {
+    to {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+}
+
+@keyframes hvr-pulse-shrink {
+    to {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+}
+
+.log-in, .register, .log-out {
+    border: 2px solid;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: transparent;
+    margin: 10px;
+    -webkit-font-smoothing: antialiased;
+}
+
+    .log-in:hover, .register:hover, log-out:hover {
+        background-color: #006d77;
+        cursor: pointer;
+        box-sizing: 20px 2px 10px 7px white;
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-transform: perspective(1px) translateZ(0);
+        transform: perspective(1px) translateZ(0);
+        /*box-shadow: 0 0 1px rgb(0 0 0);*/
+    }
+
+/* Float */
+
+.log-in, .register, .log-out {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+
+    .log-in:hover, .log-in:focus, .log-in:active, .register:hover, .register:focus, .register:active, .log-out:hover, .log-out:focus, .log-out:active {
+        -webkit-animation-name: hvr-pulse-shrink;
+        animation-name: hvr-pulse-shrink;
+        -webkit-animation-duration: 0.3s;
+        animation-duration: 0.3s;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+        -webkit-animation-direction: alternate;
+        animation-direction: alternate;
+    }
+
+/* information */
+
+.information {
+    display: flex;
+    align-items: center;
+    margin: 50px;
+    flex-direction: column;
+}
+
+/* footer */
+
+.page-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 10px 10px 0 10px;
+    height: 100%;
+    background-color: #14213d;
+    color: rgb(148, 143, 143);
+}
+
+    .page-footer ul {
+        margin: 0;
+        list-style: none;
+    }
+
+        .page-footer ul li {
+            margin: 20px;
+        }
+
+        .page-footer ul a {
+            color: rgb(148, 143, 143);
+            text-decoration: none;
+        }
+
+    .page-footer .share-via ul {
+        display: flex;
+    }
+
+    .page-footer .share-via li a {
+        align-self: flex-end;
+        font-size: 30px;
+    }
+
+    .page-footer ul a:hover {
+        color: white;
+    }
+
+    .page-footer .copyright {
+        align-self: center;
+    }
+
+/* Follow me for more pens like this! */
+
+/* Tweak to change the look and feel */
+:root {
+    --button-background: dodgerblue;
+    --button-color: white;
+    --dropdown-highlight: dodgerblue;
+    --dropdown-width: 160px;
+    --dropdown-background: white;
+    --dropdown-color: black;
+}
+
+/* Center the planet */
+body {
+    min-height: 100vh;
+}
+
+/* Boring button styles */
+a.button {
+    /* Frame */
+    display: inline-block;
+    padding: 20px 28px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    /* Style */
+    border: none;
+    background: var(--button-background);
+    color: var(--button-color);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+    a.button:active {
+        filter: brightness(75%);
+    }

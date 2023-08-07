@@ -4,9 +4,8 @@ namespace OnlineBookshop.Data.Models
     using System;
     using System.Collections.Generic;
 
-    using OnlineBookshop.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using OnlineBookshop.Data.Common.Models;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {

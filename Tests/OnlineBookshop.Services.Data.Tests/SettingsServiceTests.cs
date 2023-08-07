@@ -4,15 +4,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
+    using Moq;
     using OnlineBookshop.Data;
     using OnlineBookshop.Data.Common.Repositories;
     using OnlineBookshop.Data.Models;
     using OnlineBookshop.Data.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
-
-    using Moq;
-
     using Xunit;
 
     public class SettingsServiceTests
