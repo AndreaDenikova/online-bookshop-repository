@@ -1,7 +1,13 @@
-﻿namespace OnlineBookshop.Web
+namespace OnlineBookshop.Web
 {
-    using System.Reflection;
-
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using OnlineBookshop.Data;
     using OnlineBookshop.Data.Common;
     using OnlineBookshop.Data.Common.Repositories;
@@ -12,23 +18,27 @@
     using OnlineBookshop.Services.Mapping;
     using OnlineBookshop.Services.Messaging;
     using OnlineBookshop.Web.ViewModels;
-
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
+    using System;
+    using System.Reflection;
 
     public class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ??
+            //    throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
+
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(connectionString));
+
+            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
             ConfigureServices(builder.Services, builder.Configuration);
             var app = builder.Build();
             Configure(app);
+            //app.UseAuthentication();
             app.Run();
         }
 

@@ -1,0 +1,8 @@
+﻿.register-button {
+    margin-top: 1em;
+}
+
+    .register-button:hover {
+        background: #b5bfd9 !important;
+        color: white !important;
+    }
