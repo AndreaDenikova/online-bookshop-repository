@@ -1,11 +1,13 @@
 ﻿namespace OnlineBookshop.Web.ViewModels.InputModels;
 
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 public class NewBookInputModel
 {
     public IFormFile Cover { get; set; }
+
+    public IFormFile BookFile { get; set; }
 
     public string Title { get; set; }
 

@@ -1,12 +1,12 @@
 ﻿namespace OnlineBookshop.Web.Controllers;
 
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookshop.Data;
 using OnlineBookshop.Services.Data;
 using OnlineBookshop.Web.ViewModels.InputModels;
 using OnlineBookshop.Web.ViewModels.ViewModels;
-using System.Linq;
-using System.Threading.Tasks;
 
 public class BookController : BaseController
 {

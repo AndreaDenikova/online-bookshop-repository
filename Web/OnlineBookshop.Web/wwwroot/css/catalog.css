@@ -145,8 +145,6 @@ body {
 }
 
 .form-search-box {
-    display: flex;
-    justify-content: flex-start;
     margin: 0 2em;
     margin-bottom: 1em;
 }
@@ -182,9 +180,9 @@ body {
 
 .book-cover {
     width: 200px;
-    height: auto;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 1.5em 0 0 1em;
+    height: 269px;
 }
 
 .book-info-summary {
@@ -219,10 +217,10 @@ body {
 }
 
 .categroies-right-section {
-    width: 1050px;
+    width: 1200px;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .categories-left-section {

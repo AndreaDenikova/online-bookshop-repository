@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using OnlineBookshop.Data.Common.Repositories;
 using OnlineBookshop.Data.Models;
 using OnlineBookshop.Web.ViewModels.InputModels;
@@ -15,7 +16,8 @@ public class BookService : IBookService
     private readonly IDeletableEntityRepository<AuthorBook> authorBookRepository;
     private readonly IHostingEnvironment environment;
 
-    public BookService(IDeletableEntityRepository<Book> bookRepository,
+    public BookService(
+        IDeletableEntityRepository<Book> bookRepository,
         IDeletableEntityRepository<GenreBook> genreBookRepository,
         IDeletableEntityRepository<AuthorBook> authorBookRepository,
         IHostingEnvironment environment)
@@ -28,17 +30,9 @@ public class BookService : IBookService
 
     public async Task PostNewBookAsync(NewBookInputModel input)
     {
-        string path = Path.Combine(this.environment.WebRootPath, "Uploads");
-        if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }
-
-        string fileName = DateTime.Now.Ticks + "_" + Path.GetFileName(input.Cover.FileName);
-        using (var stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
-        {
-            input.Cover.CopyTo(stream);
-        }
+        // TODO: add try catch
+        string coverFileName = this.GetFileNameAndSave("Uploads", input.Cover);
+        string bookFileName = this.GetFileNameAndSave("books", input.BookFile);
 
         var book = new Book
         {
@@ -49,7 +43,8 @@ public class BookService : IBookService
             Price = input.Price,
             Year = input.Year,
             Publisher = input.Publisher,
-            Cover = $"/Uploads/{fileName}",
+            Cover = $"/Uploads/{coverFileName}",
+            BookFile = $"/books/{bookFileName}",
         };
 
         await this.bookRepository.AddAsync(book);
@@ -75,5 +70,21 @@ public class BookService : IBookService
         await this.authorBookRepository.AddAsync(authorBook);
 
         await this.bookRepository.SaveChangesAsync();
+    }
+
+    private string GetFileNameAndSave(string folder, IFormFile file)
+    {
+        string path = Path.Combine(this.environment.WebRootPath, folder);
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        string uniqueFileName = DateTime.Now.Ticks + "_" + Path.GetFileName(file.FileName);
+        using var stream = new FileStream(Path.Combine(path, uniqueFileName), FileMode.Create);
+        file.CopyTo(stream);
+
+        return uniqueFileName;
     }
 }

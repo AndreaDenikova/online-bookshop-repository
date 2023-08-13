@@ -36,6 +36,8 @@ public class Book : BaseDeletableModel<string>
 
     public int Year { get; set; }
 
+    public string BookFile { get; set; }
+
     public virtual ICollection<AuthorBook> Authors { get; set; }
 
     public virtual ICollection<GenreBook> Genres { get; set; }

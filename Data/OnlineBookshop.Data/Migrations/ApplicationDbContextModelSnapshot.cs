@@ -321,6 +321,9 @@ namespace OnlineBookshop.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("BookFile")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Cover")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -606,7 +609,7 @@ namespace OnlineBookshop.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineBookshop.Data.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("Authors")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -630,7 +633,7 @@ namespace OnlineBookshop.Data.Migrations
             modelBuilder.Entity("OnlineBookshop.Data.Models.GenreBook", b =>
                 {
                     b.HasOne("OnlineBookshop.Data.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("Genres")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -662,6 +665,13 @@ namespace OnlineBookshop.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("OnlineBookshop.Data.Models.Book", b =>
+                {
+                    b.Navigation("Authors");
+
+                    b.Navigation("Genres");
                 });
 #pragma warning restore 612, 618
         }

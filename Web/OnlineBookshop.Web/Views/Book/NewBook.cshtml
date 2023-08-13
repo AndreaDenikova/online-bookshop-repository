@@ -8,11 +8,20 @@
     <div class="form-field pointer">
         <label for="cover-file" class="pointer">
             <div>Add cover</div>
-            <img src="~/images/gallery.png" alt="" class="upload-cover-icon">
+            <img src="~/images/gallery.png" alt="click here to upload book cover" class="upload-cover-icon">
         </label>
-        <input id="cover-file" type="file" name="cover" accept=".jpg,.jpeg,.png" onchange="onuploaded()" hidden>
+        <input id="cover-file" type="file" name="cover" accept=".jpg,.jpeg,.png" onchange="oncoveruploaded()" hidden>
         <div id="successfully-uploaded-message"></div>
         <div id="upload-error" hidden>Wrong file type. Please select a .jpg, .jpeg or .png file.</div>
+    </div>
+    <div class="form-field pointer">
+        <label for="book-file" class="pointer">
+            <div>Add book .pdf file</div>
+            <img src="~/images/pngwing.com.png" alt="click here to add book file" class="upload-book-icon">
+        </label>
+        <input id="book-file" type="file" name="bookfile" accept=".pdf" onchange="onbookuploaded()" hidden>
+        <div id="successfully-uploaded-book-message"></div>
+        <div id="upload-book-error" hidden>Wrong file type. Please select a .pdf file.</div>
     </div>
     <div class="form-field">
         <label for="title">Title</label>
@@ -81,7 +90,7 @@
 </form>
 
 <script>
-    function onuploaded(){
+    function oncoveruploaded(){
         document.getElementById('upload-error').hidden = true;
 
         var file = document.getElementById('cover-file').files[0];
@@ -93,5 +102,20 @@
         }
 
         document.getElementById('successfully-uploaded-message').innerHTML = 'Successfully uploaded ' + file.name;
+    }
+</script>
+<script>
+    function onbookuploaded(){
+        document.getElementById('upload-book-error').hidden = true;
+
+        var file = document.getElementById('book-file').files[0];
+
+        if(file.type != 'application/pdf'){
+            document.getElementById('successfully-uploaded-book-message').innerHTML = "";
+            document.getElementById('upload-book-error').hidden = false;
+            return;
+        }
+
+        document.getElementById('successfully-uploaded-book-message').innerHTML = 'Successfully uploaded ' + file.name;
     }
 </script>

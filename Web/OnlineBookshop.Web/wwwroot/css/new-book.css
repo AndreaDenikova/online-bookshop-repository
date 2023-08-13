@@ -33,7 +33,7 @@
         height: 3em;
     }
 
-.upload-cover-icon {
+.upload-cover-icon, .upload-book-icon {
     width: 75px;
     margin-top: 0.5em;
 }
