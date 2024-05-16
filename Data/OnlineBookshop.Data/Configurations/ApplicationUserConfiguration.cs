@@ -1,8 +1,8 @@
 ﻿namespace OnlineBookshop.Data.Configurations
 {
-    using OnlineBookshop.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using OnlineBookshop.Data.Models;
 
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {

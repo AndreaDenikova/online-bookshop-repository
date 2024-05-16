@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,17 @@ public class BookService : IBookService
         this.genreBookRepository = genreBookRepository;
         this.authorBookRepository = authorBookRepository;
         this.environment = environment;
+    }
+
+    public async Task DeleteBookAsync(string bookId)
+    {
+        var book = this.bookRepository.All().Where(b => b.Id == bookId).FirstOrDefault();
+        if (book != null)
+        {
+            book.IsDeleted = true;
+            this.bookRepository.Update(book);
+            await this.bookRepository.SaveChangesAsync();
+        }
     }
 
     public async Task PostNewBookAsync(NewBookInputModel input)

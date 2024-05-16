@@ -22,6 +22,7 @@ public class CatalogController : BaseController
     {
         var books = this.catalogService.GetBooks(input).Select(b => new BookViewModel
         {
+            Id = b.Id,
             Title = b.Title,
             CoverUrl = b.Cover,
             Price = b.Price,

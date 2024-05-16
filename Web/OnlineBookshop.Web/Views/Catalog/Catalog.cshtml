@@ -4,6 +4,7 @@
     this.ViewData["Title"] = "Catalog";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="catalog-wrapper">
     <div>
         <div class="categories-wrapper">
@@ -36,7 +37,7 @@
                 </form>
             </div>
 
-            <div class="categroies-right-section">
+            <div class="categories-right-section">
                 @foreach (var book in Model.Books)
                 {
                     <div class="book-info-summary">
@@ -45,6 +46,9 @@
                             <div class="book-title">@book.Title</div>
                             <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
                             <div class="book-price">$@book.Price</div>
+                            <input type="button" value="Edit" class="edit-book-button" asp-controller="Book" asp-action="EditBook">@*<i class="fa-regular fa-pen-to-square"></i>*@
+                            <a hidden="hidden" id="remove" type="button" class="delete-book-button-link" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Delete</a>
+                            <button type="button" class="delete-book-button" onclick="document.getElementById('remove').click()">Delete</button>
                         </div>
                     </div>
                 }

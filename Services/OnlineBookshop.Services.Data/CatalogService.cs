@@ -28,15 +28,15 @@ public class CatalogService : ICatalogService
         {
             var booksIdsByGenre = this.genreBookRepository.All().Where(b => input.GenreIds.Contains(b.GenreId));
             result.AddRange(this.bookRepository
-                                    .All()
-                                    .Include(b => b.Authors)
-                                    .ThenInclude(a => a.Author)
-                                    .Include(b => b.Genres)
-                                    .ThenInclude(a => a.Genre)
-                                    .Where(b => booksIdsByGenre
-                                        .Select(b => b.BookId)
-                                        .Contains(b.Id))
-                                    .ToList());
+                    .All()
+                    .Include(b => b.Authors)
+                    .ThenInclude(a => a.Author)
+                    .Include(b => b.Genres)
+                    .ThenInclude(a => a.Genre)
+                    .Where(b => booksIdsByGenre
+                    .Select(b => b.BookId)
+                    .Contains(b.Id))
+                .ToList());
         }
 
         if (input.AuthorBookTitle?.Length > 0)
@@ -46,21 +46,23 @@ public class CatalogService : ICatalogService
             foreach (var authorOrBookTitle in splittedAuthorBookTitle)
             {
                 result.AddRange(this.bookRepository
-                                    .All()
-                                    .Include(b => b.Authors)
-                                    .ThenInclude(a => a.Author)
-                                    .Include(b => b.Genres)
-                                    .ThenInclude(a => a.Genre)
-                                    .Where(b => b.Authors
-                                        .Any(x => (x.Author.FirstName + " " + x.Author.LastName).Contains(authorOrBookTitle)) ||
-                                            b.Title.Contains(authorOrBookTitle))
-                                    .ToList());
+                        .All()
+                        .Include(b => b.Authors)
+                        .ThenInclude(a => a.Author)
+                        .Include(b => b.Genres)
+                        .ThenInclude(a => a.Genre)
+                        .Where(b => b.Authors
+                        .Any(x => (x.Author.FirstName + " " + x.Author.LastName).Contains(authorOrBookTitle)) ||
+                            b.Title.Contains(authorOrBookTitle))
+                    .ToList());
             }
         }
 
-        if (result.Any())
+        var notDletedBooks = result.Where(b => !b.IsDeleted);
+
+        if (notDletedBooks.Any())
         {
-            return result.DistinctBy(b => b.Id);
+            return notDletedBooks.DistinctBy(b => b.Id);
         }
 
         return this.bookRepository
@@ -69,6 +71,7 @@ public class CatalogService : ICatalogService
             .ThenInclude(a => a.Author)
             .Include(b => b.Genres)
             .ThenInclude(a => a.Genre)
+            .Where(b => !b.IsDeleted)
             .ToList();
     }
 }

@@ -6,4 +6,5 @@ using OnlineBookshop.Web.ViewModels.InputModels;
 public interface IBookService
 {
     Task PostNewBookAsync(NewBookInputModel input);
+    Task DeleteBookAsync(string bookId);
 }

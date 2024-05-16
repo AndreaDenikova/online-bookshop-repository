@@ -182,7 +182,7 @@ body {
     width: 200px;
     object-fit: cover;
     border-radius: 1.5em 0 0 1em;
-    height: 269px;
+    height: 300px;
 }
 
 .book-info-summary {
@@ -216,7 +216,7 @@ body {
     width: 200px;
 }
 
-.categroies-right-section {
+.categories-right-section {
     width: 1200px;
     display: flex;
     flex-wrap: wrap;
@@ -226,4 +226,31 @@ body {
 .categories-left-section {
     position: sticky;
     top: 3em;
+}
+
+/* Style edit button */
+.edit-book-button, .delete-book-button {
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 10px 14px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    border-radius: 8px; /* Make edges round */
+}
+
+.delete-book-button {
+    background-color: darkred;
+}
+
+.edit-book-button{
+    background-color: darkblue;
+}
+
+/* Darker background on mouse-over */
+    .edit-book-button:hover {
+        background-color: RoyalBlue;
+    }
+
+.delete-book-button:hover {
+    background-color: orangered
 }
