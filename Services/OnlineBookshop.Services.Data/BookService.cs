@@ -15,18 +15,37 @@ public class BookService : IBookService
     private readonly IDeletableEntityRepository<Book> bookRepository;
     private readonly IDeletableEntityRepository<GenreBook> genreBookRepository;
     private readonly IDeletableEntityRepository<AuthorBook> authorBookRepository;
+    private readonly IDeletableEntityRepository<FavoriteBook> favoriteBookRepository;
     private readonly IHostingEnvironment environment;
 
     public BookService(
         IDeletableEntityRepository<Book> bookRepository,
         IDeletableEntityRepository<GenreBook> genreBookRepository,
         IDeletableEntityRepository<AuthorBook> authorBookRepository,
+        IDeletableEntityRepository<FavoriteBook> favoriteBookRepository,
         IHostingEnvironment environment)
     {
         this.bookRepository = bookRepository;
         this.genreBookRepository = genreBookRepository;
         this.authorBookRepository = authorBookRepository;
+        this.favoriteBookRepository = favoriteBookRepository;
         this.environment = environment;
+    }
+
+    public async Task AddBookToFavoritesAsync(string userId, string bookId)
+    {
+        var favorite = this.favoriteBookRepository.All().FirstOrDefault(f => f.UserId == userId && f.BookId == bookId);
+        if (favorite == null)
+        {
+            var favoriteBook = new FavoriteBook
+            {
+                UserId = userId,
+                BookId = bookId,
+            };
+
+            await this.favoriteBookRepository.AddAsync(favoriteBook);
+            await this.favoriteBookRepository.SaveChangesAsync();
+        }
     }
 
     public async Task DeleteBookAsync(string bookId)

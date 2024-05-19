@@ -1,15 +1,9 @@
-﻿using OnlineBookshop.Data.Models;
-using OnlineBookshop.Web.ViewModels.InputModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace OnlineBookshop.Services.Data;
 
-namespace OnlineBookshop.Services.Data
+using System.Collections.Generic;
+using OnlineBookshop.Data.Models;
+using OnlineBookshop.Web.ViewModels.InputModels;
+public interface ICatalogService
 {
-    public interface ICatalogService
-    {
-        IEnumerable<Book> GetBooks(CatalogFilterInputModel input);
-    }
+    IEnumerable<Book> GetBooks(CatalogFilterInputModel input);
 }

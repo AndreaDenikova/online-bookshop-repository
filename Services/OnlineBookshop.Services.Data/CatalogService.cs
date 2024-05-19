@@ -23,20 +23,22 @@ public class CatalogService : ICatalogService
     public IEnumerable<Book> GetBooks(CatalogFilterInputModel input)
     {
         var result = new List<Book>();
-
+        var searchIsMade = false;
         if (input.GenreIds != null && input.GenreIds.Any())
         {
             var booksIdsByGenre = this.genreBookRepository.All().Where(b => input.GenreIds.Contains(b.GenreId));
             result.AddRange(this.bookRepository
                     .All()
+                    .Where(b => booksIdsByGenre
+                    .Select(b => b.BookId)
+                    .Contains(b.Id))
                     .Include(b => b.Authors)
                     .ThenInclude(a => a.Author)
                     .Include(b => b.Genres)
                     .ThenInclude(a => a.Genre)
-                    .Where(b => booksIdsByGenre
-                    .Select(b => b.BookId)
-                    .Contains(b.Id))
                 .ToList());
+
+            searchIsMade = true;
         }
 
         if (input.AuthorBookTitle?.Length > 0)
@@ -56,13 +58,13 @@ public class CatalogService : ICatalogService
                             b.Title.Contains(authorOrBookTitle))
                     .ToList());
             }
+
+            searchIsMade = true;
         }
 
-        var notDletedBooks = result.Where(b => !b.IsDeleted);
-
-        if (notDletedBooks.Any())
+        if (searchIsMade)
         {
-            return notDletedBooks.DistinctBy(b => b.Id);
+            return result.Where(b => !b.IsDeleted).DistinctBy(b => b.Id);
         }
 
         return this.bookRepository

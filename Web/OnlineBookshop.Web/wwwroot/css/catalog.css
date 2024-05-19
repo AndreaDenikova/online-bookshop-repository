@@ -229,7 +229,7 @@ body {
 }
 
 /* Style edit button */
-.edit-book-button, .delete-book-button {
+.edit-book-button, .delete-book-button, .add-book-to-favorites-button {
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 10px 14px; /* Some padding */
@@ -246,10 +246,18 @@ body {
     background-color: darkblue;
 }
 
-/* Darker background on mouse-over */
-    .edit-book-button:hover {
-        background-color: RoyalBlue;
+.add-book-to-favorites-button {
+    background-color: darkslategrey;
+}
+
+    .add-book-to-favorites-button:hover {
+        background-color: yellowgreen;
     }
+
+/* Darker background on mouse-over */
+.edit-book-button:hover {
+    background-color: RoyalBlue;
+}
 
 .delete-book-button:hover {
     background-color: orangered

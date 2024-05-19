@@ -39,6 +39,8 @@
 
         public DbSet<AuthorBook> AuthorBook { get; set; }
 
+        public DbSet<FavoriteBook> FavoriteBook { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -65,6 +67,9 @@
 
             builder.Entity<GenreBook>()
                 .HasKey(f => new { f.GenreId, f.BookId });
+
+            builder.Entity<FavoriteBook>()
+               .HasKey(f => new { f.UserId, f.BookId });
 
             // Needed for Identity models configuration
             base.OnModelCreating(builder);

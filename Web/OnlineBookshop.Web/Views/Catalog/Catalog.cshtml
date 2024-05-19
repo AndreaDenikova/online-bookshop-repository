@@ -49,6 +49,8 @@
                             <input type="button" value="Edit" class="edit-book-button" asp-controller="Book" asp-action="EditBook">@*<i class="fa-regular fa-pen-to-square"></i>*@
                             <a hidden="hidden" id="remove" type="button" class="delete-book-button-link" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Delete</a>
                             <button type="button" class="delete-book-button" onclick="document.getElementById('remove').click()">Delete</button>
+                             <a hidden="hidden" id="tofavorites" type="button" class="add-book-to-favorites-button-link" asp-controller="Book" asp-action="AddBookToFavorites" asp-route-bookId="@book.Id">Add To Favorites</a>
+                            <button type="button" class="add-book-to-favorites-button" onclick="document.getElementById('tofavorites').click()">Add To Favorites</button>
                         </div>
                     </div>
                 }
