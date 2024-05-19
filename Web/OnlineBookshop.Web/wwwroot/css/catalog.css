@@ -229,7 +229,7 @@ body {
 }
 
 /* Style edit button */
-.edit-book-button, .delete-book-button, .add-book-to-favorites-button {
+.edit-book-button, .delete-book-button, .add-book-to-favorites-button, .remove-book-from-favorites-button {
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 10px 14px; /* Some padding */
@@ -238,7 +238,7 @@ body {
     border-radius: 8px; /* Make edges round */
 }
 
-.delete-book-button {
+.delete-book-button, .remove-book-from-favorites-button {
     background-color: darkred;
 }
 
@@ -259,6 +259,6 @@ body {
     background-color: RoyalBlue;
 }
 
-.delete-book-button:hover {
+.delete-book-button:hover, .remove-book-from-favorites-button:hover {
     background-color: orangered
 }

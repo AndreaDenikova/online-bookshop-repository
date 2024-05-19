@@ -7,7 +7,11 @@ public class NewBookInputModel
 {
     public IFormFile Cover { get; set; }
 
+    public string CoverName { get; set; }
+
     public IFormFile BookFile { get; set; }
+
+    public string BookFileName { get; set; }
 
     public string Title { get; set; }
 

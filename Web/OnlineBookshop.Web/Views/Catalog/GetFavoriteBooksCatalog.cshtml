@@ -1,7 +1,7 @@
 ﻿@model OnlineBookshop.Web.ViewModels.ViewModels.BookForCategoriesViewModel;
 @using OnlineBookshop.Common;
 @{
-    this.ViewData["Title"] = "Catalog";
+    this.ViewData["Title"] = "WishList";
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -46,12 +46,8 @@
                             <div class="book-title">@book.Title</div>
                             <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
                             <div class="book-price">$@book.Price</div>
-                            <a hidden="hidden" id="edit-@book.Id" type="button" class="edit-book-button-link" asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id">Edit</a>
-                            <button type="button" class="edit-book-button" onclick="document.getElementById('edit-@book.Id').click()">Edit</button>
-                            <a hidden="hidden" id="remove-@book.Id" type="button" class="delete-book-button-link" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Delete</a>
-                            <button type="button" class="delete-book-button" onclick="document.getElementById('remove-@book.Id').click()">Delete</button>
-                             <a hidden="hidden" id="tofavorites-@book.Id" type="button" class="add-book-to-favorites-button-link" asp-controller="Book" asp-action="AddBookToFavorites" asp-route-bookId="@book.Id">Add To Favorites</a>
-                            <button type="button" class="add-book-to-favorites-button" onclick="document.getElementById('tofavorites-@book.Id').click()">Add To Favorites</button>
+                             <a hidden="hidden" id="removeFromFavorites-@book.Id" type="button" class="remove-book-from-favorites-button-link" asp-controller="Book" asp-action="RemoveBookFromFavorites" asp-route-bookId="@book.Id">Remove from Favorites</a>
+                            <button type="button" class="remove-book-from-favorites-button" onclick="document.getElementById('removeFromFavorites-@book.Id').click()">Remove from Favorites</button>
                         </div>
                     </div>
                 }

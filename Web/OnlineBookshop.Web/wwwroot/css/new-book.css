@@ -41,3 +41,7 @@
 .pointer {
     cursor: pointer;
 }
+
+.cover-preview {
+    width: 250px
+}

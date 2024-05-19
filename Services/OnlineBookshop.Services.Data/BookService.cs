@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OnlineBookshop.Data.Common.Repositories;
 using OnlineBookshop.Data.Models;
 using OnlineBookshop.Web.ViewModels.InputModels;
@@ -59,6 +60,14 @@ public class BookService : IBookService
         }
     }
 
+    public Book GetBook(string bookId) => this.bookRepository
+            .All()
+            .Include(b => b.Authors)
+            .ThenInclude(a => a.Author)
+            .Include(b => b.Genres)
+            .ThenInclude(a => a.Genre)
+            .Single(b => b.Id == bookId);
+
     public async Task PostNewBookAsync(NewBookInputModel input)
     {
         // TODO: add try catch
@@ -101,6 +110,14 @@ public class BookService : IBookService
         await this.authorBookRepository.AddAsync(authorBook);
 
         await this.bookRepository.SaveChangesAsync();
+    }
+
+    public async Task RemoveBookFromFavoritesAsync(string userId, string bookId)
+    {
+        var favoriteBook = this.favoriteBookRepository.All().Single(f => f.UserId == userId && f.BookId == bookId);
+        this.favoriteBookRepository.HardDelete(favoriteBook);
+
+        await this.favoriteBookRepository.SaveChangesAsync();
     }
 
     private string GetFileNameAndSave(string folder, IFormFile file)

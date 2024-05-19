@@ -1,8 +1,11 @@
 ﻿namespace OnlineBookshop.Web.Controllers;
 
+using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookshop.Data;
@@ -52,20 +55,40 @@ public class BookController : BaseController
     }
 
     [Authorize]
-    public IActionResult EditBook()
+    public IActionResult EditBook(string bookId)
     {
-        //var genres = this.dbContext.Genre.ToList();
-        //var authors = this.dbContext.Author.ToList();
-        //var languages = this.dbContext.Language.ToList();
+        var genres = this.dbContext.Genre.ToList();
+        var authors = this.dbContext.Author.ToList();
+        var languages = this.dbContext.Language.ToList();
 
-        //var model = new NewBookViewModel
-        //{
-        //    Genres = genres,
-        //    Authors = authors,
-        //    Languages = languages,
-        //};
+        var book = this.bookService.GetBook(bookId);
+        var fullBookFile = book.BookFile.Split('_').ToList();
+        fullBookFile.RemoveAt(0);
 
-        return this.Redirect("/Catalog/Catalog");
+        var inputModel = new NewBookInputModel
+        {
+            Title = book.Title,
+            AuthorId = book.Authors.Select(a => a.Id).Single(), // TODO: fix it to be possible to add more than 1 author
+            Publisher = book.Publisher,
+            GenreIds = book.Genres.Select(g => g.GenreId).ToList(),
+            Pages = book.Pages,
+            Year = book.Year,
+            Description = book.Description,
+            LanguageId = book.LanguageId,
+            Price = book.Price,
+            BookFileName = string.Join("_", fullBookFile),
+            CoverName = book.Cover,
+        };
+
+        var model = new NewBookViewModel
+        {
+            Genres = genres,
+            Authors = authors,
+            Languages = languages,
+            InputModel = inputModel,
+        };
+
+        return this.View(model);
     }
 
     [Authorize]
@@ -83,5 +106,13 @@ public class BookController : BaseController
         await this.bookService.AddBookToFavoritesAsync(userId, bookId);
 
         return this.Redirect("/Catalog/Catalog");
+    }
+
+    public async Task<IActionResult> RemoveBookFromFavorites(string bookId)
+    {
+        var userId = this.userManager.GetUserId(this.User);
+        await this.bookService.RemoveBookFromFavoritesAsync(userId, bookId);
+
+        return this.Redirect("/Catalog/GetFavoriteBooksCatalog");
     }
 }
