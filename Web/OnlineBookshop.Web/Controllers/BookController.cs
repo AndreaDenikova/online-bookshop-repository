@@ -142,6 +142,6 @@ public class BookController : BaseController
         var userId = this.userManager.GetUserId(this.User);
         await this.bookService.RemoveBookFromCartAsync(userId, bookId);
 
-        return this.Redirect("/Catalog/Catalog");
+        return this.Redirect("/Catalog/GetCartCatalog");
     }
 }

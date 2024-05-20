@@ -46,7 +46,7 @@
                             <div class="book-title">@book.Title</div>
                             <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
                             <div class="book-price">$@book.Price</div>
-                            <a hidden="hidden" id="remove-from-cart-@book.Id" type="button" class="remove-from-cart-link" asp-controller="Book" asp-action="RemoveBookFromCart" asp-route-id="@book.Id">Remove</a>
+                            <a hidden="hidden" id="remove-from-cart-@book.Id" type="button" class="remove-from-cart-link" asp-controller="Book" asp-action="RemoveBookFromCart" asp-route-bookId="@book.Id">Remove</a>
                             <button type="button" class="remove-from-cart" onclick="document.getElementById('remove-from-cart-@book.Id').click()">Remove</button>
                         </div>
                     </div>
