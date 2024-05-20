@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 
 public class NewBookInputModel
 {
+    public string Id { get; set; }
+
     public IFormFile Cover { get; set; }
 
     public string CoverName { get; set; }

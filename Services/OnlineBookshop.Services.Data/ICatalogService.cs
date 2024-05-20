@@ -8,4 +8,6 @@ public interface ICatalogService
     IEnumerable<Book> GetBooks(CatalogFilterInputModel input);
 
     IEnumerable<Book> GetFavoriteBooks(CatalogFilterInputModel input, string userId);
+
+    IEnumerable<Book> GetCartBooks(CatalogFilterInputModel input, string userId);
 }

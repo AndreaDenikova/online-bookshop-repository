@@ -1,15 +1,15 @@
 ﻿namespace OnlineBookshop.Services.Data;
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using OnlineBookshop.Data.Common.Repositories;
 using OnlineBookshop.Data.Models;
 using OnlineBookshop.Web.ViewModels.InputModels;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class BookService : IBookService
 {
@@ -17,6 +17,7 @@ public class BookService : IBookService
     private readonly IDeletableEntityRepository<GenreBook> genreBookRepository;
     private readonly IDeletableEntityRepository<AuthorBook> authorBookRepository;
     private readonly IDeletableEntityRepository<FavoriteBook> favoriteBookRepository;
+    private readonly IDeletableEntityRepository<UserBookCart> userBookCartRepository;
     private readonly IHostingEnvironment environment;
 
     public BookService(
@@ -24,13 +25,32 @@ public class BookService : IBookService
         IDeletableEntityRepository<GenreBook> genreBookRepository,
         IDeletableEntityRepository<AuthorBook> authorBookRepository,
         IDeletableEntityRepository<FavoriteBook> favoriteBookRepository,
+        IDeletableEntityRepository<UserBookCart> userBookCartRepository,
         IHostingEnvironment environment)
     {
         this.bookRepository = bookRepository;
         this.genreBookRepository = genreBookRepository;
         this.authorBookRepository = authorBookRepository;
         this.favoriteBookRepository = favoriteBookRepository;
+        this.userBookCartRepository = userBookCartRepository;
         this.environment = environment;
+    }
+
+    public async Task AddBookToCartAsync(string userId, string bookId)
+    {
+        var book = this.userBookCartRepository.All().FirstOrDefault(f => f.UserId == userId && f.BookId == bookId);
+
+        if (book == null)
+        {
+            var userBookCart = new UserBookCart
+            {
+                UserId = userId,
+                BookId = bookId,
+            };
+
+            await this.userBookCartRepository.AddAsync(userBookCart);
+            await this.userBookCartRepository.SaveChangesAsync();
+        }
     }
 
     public async Task AddBookToFavoritesAsync(string userId, string bookId)
@@ -67,6 +87,55 @@ public class BookService : IBookService
             .Include(b => b.Genres)
             .ThenInclude(a => a.Genre)
             .Single(b => b.Id == bookId);
+
+    public async Task PostEditedBookAsync(NewBookInputModel input)
+    {
+        var book = this.bookRepository.All().Single(b => b.Id == input.Id);
+
+        if (book != null)
+        {
+            book = new Book
+            {
+                Description = input.Description,
+                Pages = input.Pages,
+                Price = input.Price,
+                Year = input.Year,
+                LanguageId = input.LanguageId,
+                BookFile = input.BookFileName,
+                Cover = input.CoverName,
+                Publisher = input.Publisher,
+                Title = input.Title,
+                // TODO: add ModifiedOn = DateTime.Now
+                // TODO: add rating
+            };
+
+            var bookAuthors = this.authorBookRepository.All().Where(a => a.BookId == input.Id);
+            await bookAuthors.ForEachAsync(b => this.authorBookRepository.HardDelete(b));
+            var bookGenres = this.genreBookRepository.All().Where(a => a.BookId == input.Id);
+            await bookGenres.ForEachAsync(b => this.genreBookRepository.HardDelete(b));
+
+            foreach (var genreId in input.GenreIds)
+            {
+                var genreBook = new GenreBook
+                {
+                    BookId = book.Id,
+                    GenreId = genreId,
+                };
+                await this.genreBookRepository.AddAsync(genreBook);
+                await this.bookRepository.SaveChangesAsync();
+            }
+
+            var authorBook = new AuthorBook
+            {
+                AuthorId = input.AuthorId,
+                BookId = book.Id,
+            };
+            await this.authorBookRepository.AddAsync(authorBook);
+
+            this.bookRepository.Update(book);
+            await this.bookRepository.SaveChangesAsync();
+        }
+    }
 
     public async Task PostNewBookAsync(NewBookInputModel input)
     {
@@ -110,6 +179,14 @@ public class BookService : IBookService
         await this.authorBookRepository.AddAsync(authorBook);
 
         await this.bookRepository.SaveChangesAsync();
+    }
+
+    public async Task RemoveBookFromCartAsync(string userId, string bookId)
+    {
+        var cartBook = this.userBookCartRepository.All().Single(f => f.UserId == userId && f.BookId == bookId);
+        this.userBookCartRepository.HardDelete(cartBook);
+
+        await this.userBookCartRepository.SaveChangesAsync();
     }
 
     public async Task RemoveBookFromFavoritesAsync(string userId, string bookId)

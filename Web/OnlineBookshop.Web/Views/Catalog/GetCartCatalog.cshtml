@@ -1,7 +1,7 @@
 ﻿@model OnlineBookshop.Web.ViewModels.ViewModels.BookForCategoriesViewModel;
 @using OnlineBookshop.Common;
 @{
-    this.ViewData["Title"] = "WishList";
+    this.ViewData["Title"] = "Cart";
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -46,8 +46,8 @@
                             <div class="book-title">@book.Title</div>
                             <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
                             <div class="book-price">$@book.Price</div>
-                             <a hidden="hidden" id="removeFromFavorites-@book.Id" type="button" class="remove-book-from-favorites-button-link" asp-controller="Book" asp-action="RemoveBookFromFavorites" asp-route-bookId="@book.Id">Remove from Favorites</a>
-                            <button type="button" class="remove-book-from-favorites-button" onclick="document.getElementById('removeFromFavorites-@book.Id').click()">Remove from Favorites</button>
+                            <a hidden="hidden" id="remove-from-cart-@book.Id" type="button" class="remove-from-cart-link" asp-controller="Book" asp-action="RemoveBookFromCart" asp-route-id="@book.Id">Remove</a>
+                            <button type="button" class="remove-from-cart" onclick="document.getElementById('remove-from-cart-@book.Id').click()">Remove</button>
                         </div>
                     </div>
                 }

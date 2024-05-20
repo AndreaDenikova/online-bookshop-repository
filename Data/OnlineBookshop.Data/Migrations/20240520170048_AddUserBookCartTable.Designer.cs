@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineBookshop.Data;
 
@@ -11,9 +12,10 @@ using OnlineBookshop.Data;
 namespace OnlineBookshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520170048_AddUserBookCartTable")]
+    partial class AddUserBookCartTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -552,11 +554,16 @@ namespace OnlineBookshop.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UsertId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("UserId", "BookId");
 
                     b.HasIndex("BookId");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UsertId");
 
                     b.ToTable("UserBookCart");
                 });
@@ -740,15 +747,13 @@ namespace OnlineBookshop.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OnlineBookshop.Data.Models.ApplicationUser", "User")
+                    b.HasOne("OnlineBookshop.Data.Models.UserInfo", "Usert")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UsertId");
 
                     b.Navigation("Book");
 
-                    b.Navigation("User");
+                    b.Navigation("Usert");
                 });
 
             modelBuilder.Entity("OnlineBookshop.Data.Models.UserInfo", b =>

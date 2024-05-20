@@ -12,7 +12,7 @@
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<InternalsVisibleTo Include="OnlineBookshop.Web.Tests" />
 	</ItemGroup>

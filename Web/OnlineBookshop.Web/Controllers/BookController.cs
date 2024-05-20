@@ -67,6 +67,7 @@ public class BookController : BaseController
 
         var inputModel = new NewBookInputModel
         {
+            Id = bookId,
             Title = book.Title,
             AuthorId = book.Authors.Select(a => a.Id).Single(), // TODO: fix it to be possible to add more than 1 author
             Publisher = book.Publisher,
@@ -92,6 +93,15 @@ public class BookController : BaseController
     }
 
     [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> EditBook(NewBookInputModel input)
+    {
+        await this.bookService.PostEditedBookAsync(input);
+
+        return this.Redirect("/Catalog/Catalog");
+    }
+
+    [Authorize]
     public async Task<IActionResult> DeleteBook(string id)
     {
         await this.bookService.DeleteBookAsync(id);
@@ -108,11 +118,30 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/Catalog");
     }
 
+    [Authorize]
     public async Task<IActionResult> RemoveBookFromFavorites(string bookId)
     {
         var userId = this.userManager.GetUserId(this.User);
         await this.bookService.RemoveBookFromFavoritesAsync(userId, bookId);
 
         return this.Redirect("/Catalog/GetFavoriteBooksCatalog");
+    }
+
+    [Authorize]
+    public async Task<IActionResult> AddBookToCart(string bookId)
+    {
+        var userId = this.userManager.GetUserId(this.User);
+        await this.bookService.AddBookToCartAsync(userId, bookId);
+
+        return this.Redirect("/Catalog/Catalog");
+    }
+
+    [Authorize]
+    public async Task<IActionResult> RemoveBookFromCart(string bookId)
+    {
+        var userId = this.userManager.GetUserId(this.User);
+        await this.bookService.RemoveBookFromCartAsync(userId, bookId);
+
+        return this.Redirect("/Catalog/Catalog");
     }
 }

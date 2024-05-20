@@ -229,7 +229,7 @@ body {
 }
 
 /* Style edit button */
-.edit-book-button, .delete-book-button, .add-book-to-favorites-button, .remove-book-from-favorites-button {
+.edit-book-button, .delete-book-button, .add-book-to-favorites-button, .remove-book-from-favorites-button, .add-book-to-cart-button, .remove-from-cart {
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 10px 14px; /* Some padding */
@@ -238,11 +238,11 @@ body {
     border-radius: 8px; /* Make edges round */
 }
 
-.delete-book-button, .remove-book-from-favorites-button {
+.delete-book-button, .remove-book-from-favorites-button, .remove-from-cart {
     background-color: darkred;
 }
 
-.edit-book-button{
+.edit-book-button, .add-book-to-cart-button {
     background-color: darkblue;
 }
 
@@ -255,10 +255,10 @@ body {
     }
 
 /* Darker background on mouse-over */
-.edit-book-button:hover {
+.edit-book-button:hover, .add-book-to-cart-button:hover {
     background-color: RoyalBlue;
 }
 
-.delete-book-button:hover, .remove-book-from-favorites-button:hover {
+.delete-book-button:hover, .remove-book-from-favorites-button:hover, .remove-from-cart:hover {
     background-color: orangered
 }
