@@ -1,6 +1,7 @@
 ﻿namespace OnlineBookshop.Web.Controllers;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -142,6 +143,15 @@ public class BookController : BaseController
         var userId = this.userManager.GetUserId(this.User);
         await this.bookService.RemoveBookFromCartAsync(userId, bookId);
 
+        return this.Redirect("/Catalog/GetCartCatalog");
+    }
+
+    [Authorize]
+    public async Task<IActionResult> BuyBooksInCart()
+    {
+        var userId = this.userManager.GetUserId(this.User);
+        await this.bookService.BuyBooksInCartAsync(userId);
+        // TODO: change redirect page
         return this.Redirect("/Catalog/GetCartCatalog");
     }
 }

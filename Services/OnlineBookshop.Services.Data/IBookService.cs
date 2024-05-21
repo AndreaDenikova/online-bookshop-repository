@@ -20,5 +20,7 @@ public interface IBookService
 
     Task RemoveBookFromCartAsync(string userId, string bookId);
 
+    Task BuyBooksInCartAsync(string userId);
+
     Book GetBook(string bookId);
 }

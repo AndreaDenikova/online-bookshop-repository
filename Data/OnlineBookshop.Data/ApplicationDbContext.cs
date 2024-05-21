@@ -43,6 +43,8 @@
 
         public DbSet<UserBookCart> UserBookCart { get; set; }
 
+        public DbSet<UserBook> UserBook { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -74,6 +76,9 @@
                .HasKey(f => new { f.UserId, f.BookId });
 
             builder.Entity<UserBookCart>()
+               .HasKey(f => new { f.UserId, f.BookId });
+
+            builder.Entity<UserBook>()
                .HasKey(f => new { f.UserId, f.BookId });
 
             // Needed for Identity models configuration

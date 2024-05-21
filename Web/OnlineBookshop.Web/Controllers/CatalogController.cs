@@ -110,4 +110,34 @@ public class CatalogController : BaseController
 
         return this.View(model);
     }
+
+    public IActionResult GetBookshelfCatalog(CatalogFilterInputModel input)
+    {
+        var userId = this.userManager.GetUserId(this.User);
+
+        var books = this.catalogService.GetFavoriteBooks(input, userId).Select(b => new BookViewModel
+        {
+            Id = b.Id,
+            Title = b.Title,
+            CoverUrl = b.Cover,
+            Price = b.Price,
+            Authors = b.Authors?.Select(a => a.Author).ToList(),
+        }).ToList();
+
+        var genres = this.dbContext.Genre.ToList();
+
+        if (input == null)
+        {
+            input = new CatalogFilterInputModel();
+        }
+
+        var model = new BookForCategoriesViewModel
+        {
+            Books = books,
+            Genres = genres,
+            InputModel = input,
+        };
+
+        return this.View(model);
+    }
 }

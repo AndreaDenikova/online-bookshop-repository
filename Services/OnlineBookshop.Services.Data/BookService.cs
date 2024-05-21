@@ -1,15 +1,15 @@
 ﻿namespace OnlineBookshop.Services.Data;
 
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using OnlineBookshop.Data.Common.Repositories;
 using OnlineBookshop.Data.Models;
 using OnlineBookshop.Web.ViewModels.InputModels;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 public class BookService : IBookService
 {
@@ -18,6 +18,7 @@ public class BookService : IBookService
     private readonly IDeletableEntityRepository<AuthorBook> authorBookRepository;
     private readonly IDeletableEntityRepository<FavoriteBook> favoriteBookRepository;
     private readonly IDeletableEntityRepository<UserBookCart> userBookCartRepository;
+    private readonly IDeletableEntityRepository<UserBook> userBookRepository;
     private readonly IHostingEnvironment environment;
 
     public BookService(
@@ -26,6 +27,7 @@ public class BookService : IBookService
         IDeletableEntityRepository<AuthorBook> authorBookRepository,
         IDeletableEntityRepository<FavoriteBook> favoriteBookRepository,
         IDeletableEntityRepository<UserBookCart> userBookCartRepository,
+        IDeletableEntityRepository<UserBook> userBookRepository,
         IHostingEnvironment environment)
     {
         this.bookRepository = bookRepository;
@@ -33,6 +35,7 @@ public class BookService : IBookService
         this.authorBookRepository = authorBookRepository;
         this.favoriteBookRepository = favoriteBookRepository;
         this.userBookCartRepository = userBookCartRepository;
+        this.userBookRepository = userBookRepository;
         this.environment = environment;
     }
 
@@ -67,6 +70,26 @@ public class BookService : IBookService
             await this.favoriteBookRepository.AddAsync(favoriteBook);
             await this.favoriteBookRepository.SaveChangesAsync();
         }
+    }
+
+    public async Task BuyBooksInCartAsync(string userId)
+    {
+        var userBookCart = this.userBookCartRepository.All().Where(b => b.UserId == userId).ToList();
+        foreach (var userBook in userBookCart)
+        {
+            var entity = new UserBook
+            {
+                BookId = userBook.BookId,
+                UserId = userId,
+                //Book = userBook.Book,
+                //User = userBook.User,
+            };
+            await this.userBookRepository.AddAsync(entity);
+            this.userBookCartRepository.HardDelete(userBook);
+        }
+
+
+        await this.userBookRepository.SaveChangesAsync();
     }
 
     public async Task DeleteBookAsync(string bookId)
