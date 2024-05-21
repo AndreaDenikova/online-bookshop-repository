@@ -115,7 +115,7 @@ public class CatalogController : BaseController
     {
         var userId = this.userManager.GetUserId(this.User);
 
-        var books = this.catalogService.GetFavoriteBooks(input, userId).Select(b => new BookViewModel
+        var books = this.catalogService.GetBookshelfBooks(input, userId).Select(b => new BookViewModel
         {
             Id = b.Id,
             Title = b.Title,
