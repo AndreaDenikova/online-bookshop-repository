@@ -96,7 +96,7 @@ body {
 
 .shopping-cart {
     max-height: 40px;
-    margin-right: 1.5em;
+    margin: 0 1.5em;
 }
 
 .navigation-wrapper {

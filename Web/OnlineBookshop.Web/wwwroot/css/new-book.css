@@ -45,3 +45,7 @@
 .cover-preview {
     width: 250px
 }
+
+.hover-effect:hover {
+    background: #b5bfd9 !important;
+}

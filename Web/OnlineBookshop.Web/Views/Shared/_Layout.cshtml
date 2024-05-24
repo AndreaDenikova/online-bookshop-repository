@@ -28,21 +28,20 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="navigation-item @(currentPage == "/Catalog/Catalog" ? "active" : "")"><a asp-controller="Catalog" asp-action="Catalog">Catalog</a></li>
-                        <li class="navigation-item @(currentPage == "/" ? "active" : "")">
+                        <li class="navigation-item">
                             <div class="dropdown">
                                 <button class="dropbtn">Menu</button>
                                 <div class="dropdown-content">
                                     @*@if (User.IsInRole("Administrator"))
-                                    {*@
-                                        <a class="border-top-left-right" asp-controller="Book" asp-action="NewBook">Add Book</a>
-                                        @*<a asp-controller="Book" asp-action="NewBook">Add Genre</a>*@
-                                        <a class="border-bottom-left-right" asp-controller="Book" asp-action="NewBook">Add Author</a>
-                                   @* }
-                                    else*@
+                                        {*@
+                                    <a style="color:grey !important;" class="border-top-left-right" asp-controller="Book" asp-action="NewBook">Add Book</a>
+                                    @*<a asp-controller="Book" asp-action="NewBook">Add Genre</a>*@
+                                    <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Book" asp-action="NewBook">Add Author</a>
+                                    @* }
+                                        else*@
                                     @*{*@
-                                        <a class="border-top-left-right" asp-controller="Catalog" asp-action="GetBookshelfCatalog">Bookshelf</a>
-                                        <a class="border-top-left-right" asp-controller="Catalog" asp-action="GetCartCatalog">Cart</a>
-                                        <a class="border-bottom-left-right" asp-controller="Catalog" asp-action="GetFavoriteBooksCatalog">Wishlist</a>
+                                    <a style="color:grey !important;" class="border-top-left-right" asp-controller="Catalog" asp-action="GetBookshelfCatalog">Bookshelf</a>
+                                    <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Catalog" asp-action="GetFavoriteBooksCatalog">Wishlist</a>
                                     @*}*@
                                 </div>
                             </div>
@@ -53,7 +52,7 @@
             <section class="user-login-signin-cart">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <img class="shopping-cart" src="~/images/shopping.png">
+                    <a style="color:grey !important;" class="border-top-left-right" asp-controller="Catalog" asp-action="GetCartCatalog"><img class="shopping-cart" src="~/images/shopping.png"></a>
                     <a class="log-out" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">Logout</a>
                 }
                 else
@@ -99,6 +98,7 @@
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/20e670ae56.js" crossorigin="anonymous" asp-append-version="true"></script>
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

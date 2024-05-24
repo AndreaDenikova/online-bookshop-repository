@@ -3,3 +3,7 @@
 @import url(new-book.css);
 @import url(register.css);
 @import url(catalog.css);
+
+.dropdown-content a{
+    color: grey !important;
+}
