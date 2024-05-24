@@ -38,24 +38,33 @@
             </div>
 
             <div class="categories-right-section">
-                @foreach (var book in Model.Books)
+
+                @if (Model.Books.Count() == 0)
                 {
-                    <div class="book-info-summary">
-                        <img src="@book.CoverUrl" class="book-cover" alt="cover">
-                        <div class="book-short-info">
-                            <div class="book-title">@book.Title</div>
-                            <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
-                            <div class="book-price">$@book.Price</div>
-                            <a hidden="hidden" id="edit-@book.Id" type="button" class="edit-book-button-link" asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id">Edit</a>
-                            <button type="button" class="edit-book-button" onclick="document.getElementById('edit-@book.Id').click()">Edit</button>
-                            <a hidden="hidden" id="remove-@book.Id" type="button" class="delete-book-button-link" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Delete</a>
-                            <button type="button" class="delete-book-button" onclick="document.getElementById('remove-@book.Id').click()">Delete</button>
-                            <a hidden="hidden" id="tofavorites-@book.Id" type="button" class="add-book-to-favorites-button-link" asp-controller="Book" asp-action="AddBookToFavorites" asp-route-bookId="@book.Id">Add To Favorites</a>
-                            <button type="button" class="add-book-to-favorites-button" onclick="document.getElementById('tofavorites-@book.Id').click()">Add To Favorites</button>
-                            <a hidden="hidden" id="add-book-to-cart-@book.Id" type="button" class="add-book-to-cart-button-link" asp-controller="Book" asp-action="AddBookToCart" asp-route-bookId="@book.Id">Add To Cart</a>
-                            <button type="button" class="add-book-to-cart-button" onclick="document.getElementById('add-book-to-cart-@book.Id').click()">Add To Cart</button>
+                    <h3>No books found</h3>
+                    <img src="/images/bookNotFound.png" alt="No books found image" class="not-found-book"></img>
+                }
+                else
+                {
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="book-info-summary">
+                            <img src="@book.CoverUrl" class="book-cover" alt="cover">
+                            <div class="book-short-info">
+                                <div class="book-title">@book.Title</div>
+                                <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
+                                <div class="book-price">$@book.Price</div>
+                                <a hidden="hidden" id="edit-@book.Id" type="button" class="edit-book-button-link" asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id">Edit</a>
+                                <button type="button" class="edit-book-button" onclick="document.getElementById('edit-@book.Id').click()">Edit</button>
+                                <a hidden="hidden" id="remove-@book.Id" type="button" class="delete-book-button-link" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Delete</a>
+                                <button type="button" class="delete-book-button" onclick="document.getElementById('remove-@book.Id').click()">Delete</button>
+                                <a hidden="hidden" id="tofavorites-@book.Id" type="button" class="add-book-to-favorites-button-link" asp-controller="Book" asp-action="AddBookToFavorites" asp-route-bookId="@book.Id">Add To Favorites</a>
+                                <button type="button" class="add-book-to-favorites-button" onclick="document.getElementById('tofavorites-@book.Id').click()">Add To Favorites</button>
+                                <a hidden="hidden" id="add-book-to-cart-@book.Id" type="button" class="add-book-to-cart-button-link" asp-controller="Book" asp-action="AddBookToCart" asp-route-bookId="@book.Id">Add To Cart</a>
+                                <button type="button" class="add-book-to-cart-button" onclick="document.getElementById('add-book-to-cart-@book.Id').click()">Add To Cart</button>
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div>

@@ -54,6 +54,12 @@
             </div>
 
             <div class="form-field">
+
+                @if (Model.Books.Count() > 0)
+                {
+                    <h3 style="color:#FF0000";>Total Price: @Model.Books.Select(b => b.Price).Sum()</h3>
+                }
+
                 <a hidden="hidden" id="buy-books" type="button" class="buy-books-in-cart-link" asp-controller="Book" asp-action="BuyBooksInCart">Buy Books</a>
                 <button type="button" class="buy-books-in-cart" onclick="document.getElementById('buy-books').click()">Buy Books</button>
             </div>

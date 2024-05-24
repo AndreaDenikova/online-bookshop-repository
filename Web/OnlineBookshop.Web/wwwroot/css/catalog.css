@@ -272,3 +272,7 @@ body {
 .buy-books-in-cart:hover {
     background-color: darkorange;
 }
+
+.not-found-book {
+    width: 400px;
+}
