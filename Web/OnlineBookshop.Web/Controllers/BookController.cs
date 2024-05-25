@@ -154,4 +154,22 @@ public class BookController : BaseController
         // TODO: change redirect page
         return this.Redirect("/Catalog/GetCartCatalog");
     }
+
+    [Authorize]
+    public IActionResult RateBook()
+    {
+        var model = new RateBookViewModel();
+
+        return this.View(model);
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> RateBook(RateBookInputModel input)
+    {
+        var userId = this.userManager.GetUserId(this.User);
+        await this.bookService.RateBookAsync(input, userId);
+
+        return this.Redirect("/Catalog/GetBookshelfCatalog");
+    }
 }

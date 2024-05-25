@@ -48,6 +48,8 @@
                             <div class="book-price">$@book.Price</div>
                             <a hidden="hidden" id="read-@book.Id" type="button" class="read-book-button-link" asp-controller="Book" asp-action="ReadBook" asp-route-bookId="@book.Id">Read</a>
                             <button type="button" class="read-book-button" onclick="document.getElementById('read-@book.Id').click()">Read</button>
+                            <a hidden="hidden" id="rate-@book.Id" type="button" class="rate-book-button-link" asp-controller="Book" asp-action="RateBook" asp-route-bookId="@book.Id">Rate</a>
+                            <button type="button" class="rate-book-button" onclick="document.getElementById('rate-@book.Id').click()">Rate</button>
                         </div>
                     </div>
                 }

@@ -19,6 +19,7 @@ public class BookService : IBookService
     private readonly IDeletableEntityRepository<FavoriteBook> favoriteBookRepository;
     private readonly IDeletableEntityRepository<UserBookCart> userBookCartRepository;
     private readonly IDeletableEntityRepository<UserBook> userBookRepository;
+    private readonly IDeletableEntityRepository<UserBookRate> userBookRateRepository;
     private readonly IHostingEnvironment environment;
 
     public BookService(
@@ -28,6 +29,7 @@ public class BookService : IBookService
         IDeletableEntityRepository<FavoriteBook> favoriteBookRepository,
         IDeletableEntityRepository<UserBookCart> userBookCartRepository,
         IDeletableEntityRepository<UserBook> userBookRepository,
+        IDeletableEntityRepository<UserBookRate> userBookRateRepository,
         IHostingEnvironment environment)
     {
         this.bookRepository = bookRepository;
@@ -36,6 +38,7 @@ public class BookService : IBookService
         this.favoriteBookRepository = favoriteBookRepository;
         this.userBookCartRepository = userBookCartRepository;
         this.userBookRepository = userBookRepository;
+        this.userBookRateRepository = userBookRateRepository;
         this.environment = environment;
     }
 
@@ -202,6 +205,20 @@ public class BookService : IBookService
         await this.authorBookRepository.AddAsync(authorBook);
 
         await this.bookRepository.SaveChangesAsync();
+    }
+
+    public async Task RateBookAsync(RateBookInputModel input, string userId)
+    {
+        var bookRate = new UserBookRate
+        {
+            BookId = input.BookId,
+            UserId = userId,
+            Comment = input.Comment,
+            Rating = input.Rating,
+        };
+
+        await this.userBookRateRepository.AddAsync(bookRate);
+        await this.userBookRateRepository.SaveChangesAsync();
     }
 
     public async Task RemoveBookFromCartAsync(string userId, string bookId)

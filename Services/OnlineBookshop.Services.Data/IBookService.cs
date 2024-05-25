@@ -22,5 +22,7 @@ public interface IBookService
 
     Task BuyBooksInCartAsync(string userId);
 
+    Task RateBookAsync(RateBookInputModel input, string userId);
+
     Book GetBook(string bookId);
 }

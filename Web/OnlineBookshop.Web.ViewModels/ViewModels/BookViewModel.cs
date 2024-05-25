@@ -1,9 +1,8 @@
 ﻿namespace OnlineBookshop.Web.ViewModels.ViewModels;
 
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using OnlineBookshop.Data.Models;
-using OnlineBookshop.Services.Mapping;
+using System.Collections.Generic;
 
 public class BookViewModel
 {

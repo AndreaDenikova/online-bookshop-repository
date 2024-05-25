@@ -47,6 +47,8 @@
 
         public DbSet<UserReadSettings> UserReadSettings { get; set; }
 
+        public DbSet<UserBookRate> UserBookRate { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -82,6 +84,9 @@
 
             builder.Entity<UserBook>()
                .HasKey(f => new { f.UserId, f.BookId });
+
+            builder.Entity<UserBookRate>()
+                .HasKey(f => new { f.UserId, f.BookId });
 
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
