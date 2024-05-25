@@ -193,6 +193,7 @@ body {
     cursor: pointer;
     width: 415px;
     margin: 0 1em 2em;
+    height: 310px;
 }
 
 .book-title {
@@ -212,19 +213,18 @@ body {
 }
 
 .book-short-info {
-    margin: 1em;
-    width: 200px;
+    padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 325px;
+    height:100%;
 }
 
 .categories-right-section {
     width: 1200px;
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .categories-left-section {
@@ -235,7 +235,7 @@ body {
 /* Style edit button */
 .edit-book-button, .delete-book-button, .add-book-to-favorites-button,
 .remove-book-from-favorites-button, .add-book-to-cart-button, .remove-from-cart,
-.buy-books-in-cart, .read-book-button, .rate-book-button, view-book-button {
+.buy-books-in-cart, .read-book-button, .rate-book-button, .view-book-button {
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 10px 14px; /* Some padding */
