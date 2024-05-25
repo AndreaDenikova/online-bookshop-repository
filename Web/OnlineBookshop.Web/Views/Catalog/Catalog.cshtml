@@ -1,7 +1,7 @@
 ﻿@model OnlineBookshop.Web.ViewModels.ViewModels.BookForCategoriesViewModel;
 @using OnlineBookshop.Common;
 @{
-    this.ViewData["Title"] = "Catalog";
+    this.ViewData["Title"] = "ViewBook";
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -71,6 +71,8 @@
                                     <a hidden="hidden" id="add-book-to-cart-@book.Id" type="button" class="add-book-to-cart-button-link" asp-controller="Book" asp-action="AddBookToCart" asp-route-bookId="@book.Id">Add To Cart</a>
                                     <button type="button" class="add-book-to-cart-button" onclick="document.getElementById('add-book-to-cart-@book.Id').click()"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                                 }
+                                <a hidden="hidden" id="view-book-@book.Id" type="button" class="view-book-button-link" asp-controller="Book" asp-action="ViewBook" asp-route-bookId="@book.Id">Details</a>
+                                    <button type="button" class="view-book-button" onclick="document.getElementById('view-book-@book.Id').click()"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>

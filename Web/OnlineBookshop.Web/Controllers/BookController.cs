@@ -172,4 +172,22 @@ public class BookController : BaseController
 
         return this.Redirect("/Catalog/GetBookshelfCatalog");
     }
+
+    [Authorize]
+    public IActionResult ViewBook(string bookId)
+    {
+        // TODO: fill data
+        var model = new ViewBookViewModel();
+
+        return this.View(model);
+    }
+
+    //[Authorize]
+    //public async Task<IActionResult> ViewBook(ViewBookInputModel input)
+    //{
+    //    var userId = this.userManager.GetUserId(this.User);
+    //    //await this.bookService.RateBookAsync(input, userId);
+
+    //    return this.Redirect("/Catalog/ViewBook");
+    //}
 }

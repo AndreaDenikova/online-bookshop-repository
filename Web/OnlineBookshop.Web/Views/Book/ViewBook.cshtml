@@ -1,0 +1,61 @@
+﻿@using OnlineBookshop.Common
+@model OnlineBookshop.Web.ViewModels.ViewModels.ViewBookViewModel
+@{
+    this.ViewData["Title"] = "NewBook";
+}
+
+<form method="post" enctype="multipart/form-data">
+    @* <div class="form-field pointer">
+        <label for="cover-file" class="pointer">
+        <div>Add cover</div>
+        <img src="~/images/gallery.png" alt="click here to upload book cover" class="upload-cover-icon">
+        </label>
+        <img id="cover-img" src="@Model.InputModel.CoverName" class="cover-preview"></img>
+        <input id="cover-file" type="file" name="cover" accept=".jpg,.jpeg,.png" onchange="oncoveruploaded()" hidden>
+        <div id="successfully-uploaded-message"></div>
+        <div id="upload-error" hidden>Wrong file type. Please select a .jpg, .jpeg or .png file.</div>
+        </div>*@
+    <div class="form-field">
+        <label for="title">@Model.Title</label>
+    </div>
+    <div class="form-field">
+        <label for="author">Author</label>
+        <label>Authors:</label>
+        @foreach (var author in Model.Authors)
+        {
+            <label>@author.FirstName @author.LastName</label>
+        }
+        </select>
+    </div>
+    <div class="form-field">
+        <label for="publisher">Publisher: @Model.Publisher</label>
+    </div>
+    <div class="form-field">
+        <fieldset class="checkbox-group">
+            <legend class="checkbox-group-legend">Genres:</legend>
+            @foreach (var genre in Model.Genres)
+            {
+                <label>@genre.Name</label>
+            }
+        </fieldset>
+    </div>
+    <div class="form-field">
+        <label for="pages">Pages: @Model.Pages</label>
+    </div>
+    <div class="form-field">
+        <label for="year">Year: @Model.Year</label>
+    </div>
+    <div class="form-field">
+        <label for="description">Description: @Model.Description</label>
+    </div>
+    <div class="form-field">
+        <label for="price">Price: @Model.Price</label>
+    </div>
+    <div class="form-field">
+        <label for="language">Language:</label>
+        @foreach (var language in Model.Languages)
+        {
+            <label>@language.Name</label>
+        }
+    </div>
+</form>
