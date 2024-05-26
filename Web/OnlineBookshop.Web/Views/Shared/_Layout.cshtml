@@ -37,12 +37,23 @@
                                         <a style="color:grey !important;" class="border-top-left-right" asp-controller="Book" asp-action="NewBook">Add Book</a>
                                         @*<a asp-controller="Book" asp-action="NewBook">Add Genre</a>*@
                                         <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Author" asp-action="NewAuthor">Add Author</a>
+                                        <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Author" asp-action="NewAuthor">Add Genre</a>
+                                        <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Author" asp-action="NewAuthor">Add Language</a>
                                     }
                                     else
                                     {
                                         <a style="color:grey !important;" class="border-top-left-right" asp-controller="Catalog" asp-action="GetBookshelfCatalog">Bookshelf</a>
                                         <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Catalog" asp-action="GetFavoriteBooksCatalog">Favorites</a>
                                     }
+                                </div>
+                            </div>
+                        </li>
+                        <li class="navigation-item">
+                            <div class="dropdown">
+                                <button class="dropbtn">Profile</button>
+                                <div class="dropdown-content">
+                                    <a style="color:grey !important;" class="border-top-left-right" asp-controller="User" asp-action="ChangePassword">Change password</a>
+                                    <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="User" asp-action="ChangeEmail">Change email</a>
                                 </div>
                             </div>
                         </li>

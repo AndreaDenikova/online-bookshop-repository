@@ -1,12 +1,9 @@
 ﻿namespace OnlineBookshop.Web.Controllers;
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookshop.Data;
@@ -21,7 +18,9 @@ public class BookController : BaseController
     private readonly IBookService bookService;
     private readonly UserManager<ApplicationUser> userManager;
 
-    public BookController(ApplicationDbContext dbContext, IBookService bookService,
+    public BookController(
+        ApplicationDbContext dbContext,
+        IBookService bookService,
         UserManager<ApplicationUser> userManager)
     {
         this.dbContext = dbContext;
