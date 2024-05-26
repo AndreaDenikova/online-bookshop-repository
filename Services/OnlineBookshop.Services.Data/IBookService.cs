@@ -1,8 +1,8 @@
 ﻿namespace OnlineBookshop.Services.Data;
 
+using System.Threading.Tasks;
 using OnlineBookshop.Data.Models;
 using OnlineBookshop.Web.ViewModels.InputModels;
-using System.Threading.Tasks;
 
 public interface IBookService
 {
@@ -25,4 +25,6 @@ public interface IBookService
     Task RateBookAsync(RateBookInputModel input, string userId);
 
     Book GetBook(string bookId);
+
+    double GetBookRatings(string bookId);
 }

@@ -5,7 +5,7 @@ using OnlineBookshop.Data.Models;
 using OnlineBookshop.Web.ViewModels.InputModels;
 public interface ICatalogService
 {
-    IEnumerable<Book> GetBooks(CatalogFilterInputModel input);
+    IEnumerable<Book> GetBooks(CatalogFilterInputModel input, string userId);
 
     IEnumerable<Book> GetFavoriteBooks(CatalogFilterInputModel input, string userId);
 

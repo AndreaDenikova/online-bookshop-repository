@@ -13,25 +13,32 @@ public class CatalogController : BaseController
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ICatalogService catalogService;
+    private readonly IBookService bookService;
     private readonly UserManager<ApplicationUser> userManager;
 
-    public CatalogController(ApplicationDbContext dbContext, ICatalogService catalogService,
+    public CatalogController(
+        ApplicationDbContext dbContext,
+        ICatalogService catalogService,
+        IBookService bookService,
         UserManager<ApplicationUser> userManager)
     {
         this.dbContext = dbContext;
         this.catalogService = catalogService;
+        this.bookService = bookService;
         this.userManager = userManager;
     }
 
     public IActionResult Catalog(CatalogFilterInputModel input)
     {
-        var books = this.catalogService.GetBooks(input).Select(b => new BookViewModel
+        var userId = this.userManager.GetUserId(this.User);
+        var books = this.catalogService.GetBooks(input, userId).Select(b => new BookViewModel
         {
             Id = b.Id,
             Title = b.Title,
             CoverUrl = b.Cover,
             Price = b.Price,
             Authors = b.Authors?.Select(a => a.Author).ToList(),
+            Rating = this.bookService.GetBookRatings(b.Id),
         }).ToList();
 
         var genres = this.dbContext.Genre.ToList();

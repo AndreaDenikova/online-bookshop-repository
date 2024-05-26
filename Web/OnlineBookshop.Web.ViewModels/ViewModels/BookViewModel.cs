@@ -17,4 +17,6 @@ public class BookViewModel
     public decimal Price { get; set; }
 
     public List<Author> Authors { get; set; }
+
+    public double Rating { get; set; }
 }

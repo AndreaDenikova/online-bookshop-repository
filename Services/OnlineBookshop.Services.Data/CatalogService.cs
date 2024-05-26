@@ -14,22 +14,25 @@ public class CatalogService : ICatalogService
     private readonly IDeletableEntityRepository<FavoriteBook> favoriteBookRepository;
     private readonly IDeletableEntityRepository<UserBookCart> userBookCartRepository;
     private readonly IDeletableEntityRepository<UserBook> userBookRepository;
+    private readonly IDeletableEntityRepository<UserBookRate> userBookRateRepository;
 
     public CatalogService(
         IDeletableEntityRepository<Book> bookRepository,
         IDeletableEntityRepository<GenreBook> genreBookRepository,
         IDeletableEntityRepository<FavoriteBook> favoriteBookRepository,
         IDeletableEntityRepository<UserBookCart> userBookCartRepository,
-        IDeletableEntityRepository<UserBook> userBookRepository)
+        IDeletableEntityRepository<UserBook> userBookRepository,
+        IDeletableEntityRepository<UserBookRate> userBookRateRepository)
     {
         this.bookRepository = bookRepository;
         this.genreBookRepository = genreBookRepository;
         this.favoriteBookRepository = favoriteBookRepository;
         this.userBookCartRepository = userBookCartRepository;
         this.userBookRepository = userBookRepository;
+        this.userBookRateRepository = userBookRateRepository;
     }
 
-    public IEnumerable<Book> GetBooks(CatalogFilterInputModel input)
+    public IEnumerable<Book> GetBooks(CatalogFilterInputModel input, string userId)
     {
         var result = new List<Book>();
         var searchIsMade = false;
@@ -71,7 +74,7 @@ public class CatalogService : ICatalogService
             searchIsMade = true;
         }
 
-        var ownedBooks = this.userBookRepository.All().Select(b => b.BookId).ToList();
+        var ownedBooks = this.userBookRepository.All().Where(b => b.UserId == userId).Select(b => b.BookId).ToList();
 
         if (searchIsMade)
         {
@@ -258,7 +261,7 @@ public class CatalogService : ICatalogService
             searchIsMade = true;
         }
 
-        var ownedBooks = this.userBookRepository.All().Select(b => b.BookId).ToList();
+        var ownedBooks = this.userBookRepository.All().Where(b => b.UserId == userId).Select(b => b.BookId).ToList();
 
         if (searchIsMade)
         {

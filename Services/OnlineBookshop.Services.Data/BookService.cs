@@ -114,6 +114,22 @@ public class BookService : IBookService
             .ThenInclude(a => a.Genre)
             .Single(b => b.Id == bookId);
 
+    public double GetBookRatings(string bookId)
+    {
+        var ratings = this.userBookRateRepository
+            .All()
+            .Where(b => b.BookId == bookId)
+            .Select(r => r.Rating)
+            .ToList();
+
+        if (ratings.Any())
+        {
+            return ratings.Average();
+        }
+
+        return 0;
+    }
+
     public async Task PostEditedBookAsync(NewBookInputModel input)
     {
         var book = this.bookRepository.All().Single(b => b.Id == input.Id);

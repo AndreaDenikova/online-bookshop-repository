@@ -1,0 +1,59 @@
+﻿@using OnlineBookshop.Common
+@using OnlineBookshop.Common
+@model OnlineBookshop.Web.ViewModels.ViewModels.NewAuthorViewModel
+@{
+    this.ViewData["Title"] = "NewBook";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-field">
+        <label for="title">First name</label>
+        <input asp-for="InputModel.FirstName" type="text" id="firstName" name="firstName">
+    </div>
+    <div class="form-field">
+        <label for="title">Last name</label>
+        <input asp-for="InputModel.LastName" type="text" id="lastName" name="lastName">
+    </div>
+    <div class="form-field">
+        <label for="description">Description</label>
+        <textarea asp-for="InputModel.Description" name="description" name="description" rows="8"></textarea>
+    </div>
+    <div class="form-field">
+        <label for="price">Birth date</label>
+        <input asp-for="InputModel.BirthDate" type="date" id="date" name="date">
+    </div>
+    <div class="form-field">
+        <input type="submit" value="Add">
+    </div>
+</form>
+
+<script>
+    function oncoveruploaded(){
+        document.getElementById('upload-error').hidden = true;
+
+        var file = document.getElementById('cover-file').files[0];
+
+        if(file.type != 'image/png' && file.type != 'image/jpeg'){
+            document.getElementById('successfully-uploaded-message').innerHTML = "";
+            document.getElementById('upload-error').hidden = false;
+            return;
+        }
+
+        document.getElementById('successfully-uploaded-message').innerHTML = 'Successfully uploaded ' + file.name;
+    }
+</script>
+<script>
+    function onbookuploaded(){
+        document.getElementById('upload-book-error').hidden = true;
+
+        var file = document.getElementById('book-file').files[0];
+
+        if(file.type != 'application/pdf'){
+            document.getElementById('successfully-uploaded-book-message').innerHTML = "";
+            document.getElementById('upload-book-error').hidden = false;
+            return;
+        }
+
+        document.getElementById('successfully-uploaded-book-message').innerHTML = 'Successfully uploaded ' + file.name;
+    }
+</script>
