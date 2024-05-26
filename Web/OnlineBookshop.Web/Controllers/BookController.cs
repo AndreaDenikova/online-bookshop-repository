@@ -176,8 +176,30 @@ public class BookController : BaseController
     [Authorize]
     public IActionResult ViewBook(string bookId)
     {
-        // TODO: fill data
-        var model = new ViewBookViewModel();
+        var genres = this.dbContext.GenreBook.Where(b => b.BookId == bookId).Select(g => g.Genre).ToList();
+
+        var authors = this.dbContext.AuthorBook.Where(b => b.BookId == bookId).Select(g => g.Author).ToList();
+
+        var book = this.bookService.GetBook(bookId);
+        var language = this.dbContext.Language.Single(l => l.Id == book.LanguageId);
+
+        var fullBookFile = book.BookFile.Split('_').ToList();
+        fullBookFile.RemoveAt(0);
+
+        var model = new ViewBookViewModel
+        {
+            Id = bookId,
+            Title = book.Title,
+            Authors = authors, // TODO: fix it to be possible to add more than 1 author
+            Publisher = book.Publisher,
+            Genres = genres,
+            Pages = book.Pages,
+            Year = book.Year,
+            Description = book.Description,
+            Language = language, // TODO: fix it to be possible to add more than 1 language ??
+            Price = book.Price,
+            CoverUrl = Environment.CurrentDirectory + "/wwwroot" + book.Cover,
+        };
 
         return this.View(model);
     }

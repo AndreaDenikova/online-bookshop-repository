@@ -18,9 +18,9 @@ public class ViewBookViewModel
 
     public string Publisher { get; set; }
 
-    public List<Language> Languages { get; set; }
+    public Language Language { get; set; }
 
-    public string Year { get; set; }
+    public int Year { get; set; }
 
     public decimal Price { get; set; }
 

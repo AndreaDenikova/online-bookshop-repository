@@ -32,17 +32,17 @@
                             <div class="dropdown">
                                 <button class="dropbtn">Menu</button>
                                 <div class="dropdown-content">
-                                    @*@if (User.IsInRole("Administrator"))
-                                        {*@
-                                    <a style="color:grey !important;" class="border-top-left-right" asp-controller="Book" asp-action="NewBook">Add Book</a>
-                                    @*<a asp-controller="Book" asp-action="NewBook">Add Genre</a>*@
-                                    <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Author" asp-action="NewAuthor">Add Author</a>
-                                    @* }
-                                        else*@
-                                    @*{*@
-                                    <a style="color:grey !important;" class="border-top-left-right" asp-controller="Catalog" asp-action="GetBookshelfCatalog">Bookshelf</a>
-                                    <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Catalog" asp-action="GetFavoriteBooksCatalog">Wishlist</a>
-                                    @*}*@
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        <a style="color:grey !important;" class="border-top-left-right" asp-controller="Book" asp-action="NewBook">Add Book</a>
+                                        @*<a asp-controller="Book" asp-action="NewBook">Add Genre</a>*@
+                                        <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Author" asp-action="NewAuthor">Add Author</a>
+                                    }
+                                    else
+                                    {
+                                        <a style="color:grey !important;" class="border-top-left-right" asp-controller="Catalog" asp-action="GetBookshelfCatalog">Bookshelf</a>
+                                        <a style="color:grey !important;" class="border-bottom-left-right" asp-controller="Catalog" asp-action="GetFavoriteBooksCatalog">Favorites</a>
+                                    }
                                 </div>
                             </div>
                         </li>
