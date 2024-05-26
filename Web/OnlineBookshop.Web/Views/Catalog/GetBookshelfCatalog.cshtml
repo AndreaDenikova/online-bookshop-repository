@@ -8,52 +8,62 @@
 <div class="catalog-wrapper">
     <div>
         <div class="categories-wrapper">
-            <div class="categories-left-section">
-                <form class="form-search-box">
-                    <div class="d-flex">
-                        <input asp-for="InputModel.AuthorBookTitle" id="search" type="search" name="authorBookTitle" placeholder="Author, Book" pattern=".*\S.*">
-                        <span class="caret"></span>
-                        <input type="submit" value="Go" class="search-button">
-                    </div>
-                    <div class="form-field">
-                        <fieldset class="checkbox-group">
-                            <legend class="checkbox-group-legend">Choose book genres</legend>
-                            @foreach (var genre in Model.Genres)
-                            {
-                                <div class="checkbox">
-                                    <label class="checkbox-wrapper">
-                                        <input name="GenreIds" value="@genre.Id" checked="@Model.InputModel.GenreIds?.Contains(genre.Id)" type="checkbox" class="checkbox-input" />
-                                        <span class="checkbox-tile">
-                                            <span class="checkbox-icon">
-                                                <img class="categories-icons" src="@genre.Picture" alt="@genre.Name">
-                                            </span>
-                                            <span class="checkbox-label">@genre.Name</span>
-                                        </span>
-                                    </label>
-                                </div>
-                            }
-                        </fieldset>
-                    </div>
-                </form>
-            </div>
-
-            <div class="categories-right-section">
-                @foreach (var book in Model.Books)
-                {
-                    <div class="book-info-summary">
-                        <img src="@book.CoverUrl" class="book-cover" alt="cover">
-                        <div class="book-short-info">
-                            <div class="book-title">@book.Title</div>
-                            <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
-                            <div class="book-price">$@book.Price</div>
-                            <a hidden="hidden" id="read-@book.Id" type="button" class="read-book-button-link" asp-controller="Book" asp-action="ReadBook" asp-route-bookId="@book.Id">Read</a>
-                            <button type="button" class="read-book-button" onclick="document.getElementById('read-@book.Id').click()">Read</button>
-                            <a hidden="hidden" id="rate-@book.Id" type="button" class="rate-book-button-link" asp-controller="Book" asp-action="RateBook" asp-route-bookId="@book.Id">Rate</a>
-                            <button type="button" class="rate-book-button" onclick="document.getElementById('rate-@book.Id').click()">Rate</button>
+            @if (Model.Books.Count == 0)
+            {
+                <div class="bookshelf-section">
+                    <h3>You don`t have any bought books yet!</h3>
+                    <img src="/images/sad.png" alt="No books found image" class="not-found-book" />
+                </div>
+            }
+            else
+            {
+                <div class="categories-left-section">
+                    <form class="form-search-box">
+                        <div class="d-flex">
+                            <input asp-for="InputModel.AuthorBookTitle" id="search" type="search" name="authorBookTitle" placeholder="Author, Book" pattern=".*\S.*">
+                            <span class="caret"></span>
+                            <input type="submit" value="Go" class="search-button">
                         </div>
-                    </div>
-                }
-            </div>
+                        <div class="form-field">
+                            <fieldset class="checkbox-group">
+                                <legend class="checkbox-group-legend">Choose book genres</legend>
+                                @foreach (var genre in Model.Genres)
+                                {
+                                    <div class="checkbox">
+                                        <label class="checkbox-wrapper">
+                                            <input name="GenreIds" value="@genre.Id" checked="@Model.InputModel.GenreIds?.Contains(genre.Id)" type="checkbox" class="checkbox-input" />
+                                            <span class="checkbox-tile">
+                                                <span class="checkbox-icon">
+                                                    <img class="categories-icons" src="@genre.Picture" alt="@genre.Name">
+                                                </span>
+                                                <span class="checkbox-label">@genre.Name</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                }
+                            </fieldset>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="categories-right-section">
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="book-info-summary">
+                            <img src="@book.CoverUrl" class="book-cover" alt="cover">
+                            <div class="book-short-info">
+                                <div class="book-title">@book.Title</div>
+                                <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
+                                <div class="book-price">$@book.Price</div>
+                                <a hidden="hidden" id="read-@book.Id" type="button" class="read-book-button-link" asp-controller="Book" asp-action="ReadBook" asp-route-bookId="@book.Id">Read</a>
+                                <button type="button" class="read-book-button" onclick="document.getElementById('read-@book.Id').click()"><i class="fa fa-book" aria-hidden="true"></i></button>
+                                <a hidden="hidden" id="rate-@book.Id" type="button" class="rate-book-button-link" asp-controller="Book" asp-action="RateBook" asp-route-bookId="@book.Id">Rate</a>
+                                <button type="button" class="rate-book-button" onclick="document.getElementById('rate-@book.Id').click()"><i class="fa fa-star-half-o" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
         </div>
     </div>
 </div>

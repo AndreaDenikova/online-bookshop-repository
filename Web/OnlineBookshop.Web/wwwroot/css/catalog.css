@@ -280,3 +280,7 @@ body {
 .not-found-book {
     width: 400px;
 }
+
+.empty-cart {
+    width: 250px;
+}

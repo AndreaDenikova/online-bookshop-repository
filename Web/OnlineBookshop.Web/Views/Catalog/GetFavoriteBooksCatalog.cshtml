@@ -8,50 +8,60 @@
 <div class="catalog-wrapper">
     <div>
         <div class="categories-wrapper">
-            <div class="categories-left-section">
-                <form class="form-search-box">
-                    <div class="d-flex">
-                        <input asp-for="InputModel.AuthorBookTitle" id="search" type="search" name="authorBookTitle" placeholder="Author, Book" pattern=".*\S.*">
-                        <span class="caret"></span>
-                        <input type="submit" value="Go" class="search-button">
-                    </div>
-                    <div class="form-field">
-                        <fieldset class="checkbox-group">
-                            <legend class="checkbox-group-legend">Choose book genres</legend>
-                            @foreach (var genre in Model.Genres)
-                            {
-                                <div class="checkbox">
-                                    <label class="checkbox-wrapper">
-                                        <input name="GenreIds" value="@genre.Id" checked="@Model.InputModel.GenreIds?.Contains(genre.Id)" type="checkbox" class="checkbox-input" />
-                                        <span class="checkbox-tile">
-                                            <span class="checkbox-icon">
-                                                <img class="categories-icons" src="@genre.Picture" alt="@genre.Name">
-                                            </span>
-                                            <span class="checkbox-label">@genre.Name</span>
-                                        </span>
-                                    </label>
-                                </div>
-                            }
-                        </fieldset>
-                    </div>
-                </form>
-            </div>
-
-            <div class="categories-right-section">
-                @foreach (var book in Model.Books)
-                {
-                    <div class="book-info-summary">
-                        <img src="@book.CoverUrl" class="book-cover" alt="cover">
-                        <div class="book-short-info">
-                            <div class="book-title">@book.Title</div>
-                            <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
-                            <div class="book-price">$@book.Price</div>
-                             <a hidden="hidden" id="removeFromFavorites-@book.Id" type="button" class="remove-book-from-favorites-button-link" asp-controller="Book" asp-action="RemoveBookFromFavorites" asp-route-bookId="@book.Id">Remove from Favorites</a>
-                            <button type="button" class="remove-book-from-favorites-button" onclick="document.getElementById('removeFromFavorites-@book.Id').click()">Remove from Favorites</button>
+            @if (Model.Books.Count == 0)
+            {
+                <div class="favorites-section">
+                    <h3>You don`t have any favorite books yet!</h3>
+                    <img src="/images/favorites.png" alt="No books found image" class="not-found-book" />
+                </div>
+            }
+            else
+            {
+                <div class="categories-left-section">
+                    <form class="form-search-box">
+                        <div class="d-flex">
+                            <input asp-for="InputModel.AuthorBookTitle" id="search" type="search" name="authorBookTitle" placeholder="Author, Book" pattern=".*\S.*">
+                            <span class="caret"></span>
+                            <input type="submit" value="Go" class="search-button">
                         </div>
-                    </div>
-                }
-            </div>
+                        <div class="form-field">
+                            <fieldset class="checkbox-group">
+                                <legend class="checkbox-group-legend">Choose book genres</legend>
+                                @foreach (var genre in Model.Genres)
+                                {
+                                    <div class="checkbox">
+                                        <label class="checkbox-wrapper">
+                                            <input name="GenreIds" value="@genre.Id" checked="@Model.InputModel.GenreIds?.Contains(genre.Id)" type="checkbox" class="checkbox-input" />
+                                            <span class="checkbox-tile">
+                                                <span class="checkbox-icon">
+                                                    <img class="categories-icons" src="@genre.Picture" alt="@genre.Name">
+                                                </span>
+                                                <span class="checkbox-label">@genre.Name</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                }
+                            </fieldset>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="categories-right-section">
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="book-info-summary">
+                            <img src="@book.CoverUrl" class="book-cover" alt="cover">
+                            <div class="book-short-info">
+                                <div class="book-title">@book.Title</div>
+                                <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
+                                <div class="book-price">$@book.Price</div>
+                                <a hidden="hidden" id="removeFromFavorites-@book.Id" type="button" class="remove-book-from-favorites-button-link" asp-controller="Book" asp-action="RemoveBookFromFavorites" asp-route-bookId="@book.Id">Remove from Favorites</a>
+                                <button type="button" class="remove-book-from-favorites-button" onclick="document.getElementById('removeFromFavorites-@book.Id').click()">Remove from Favorites</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
         </div>
     </div>
 </div>

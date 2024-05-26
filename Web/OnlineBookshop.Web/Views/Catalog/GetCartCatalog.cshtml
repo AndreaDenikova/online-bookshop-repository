@@ -8,35 +8,6 @@
 <div class="catalog-wrapper">
     <div>
         <div class="categories-wrapper">
-            <div class="categories-left-section">
-                <form class="form-search-box">
-                    <div class="d-flex">
-                        <input asp-for="InputModel.AuthorBookTitle" id="search" type="search" name="authorBookTitle" placeholder="Author, Book" pattern=".*\S.*">
-                        <span class="caret"></span>
-                        <input type="submit" value="Go" class="search-button">
-                    </div>
-                    <div class="form-field">
-                        <fieldset class="checkbox-group">
-                            <legend class="checkbox-group-legend">Choose book genres</legend>
-                            @foreach (var genre in Model.Genres)
-                            {
-                                <div class="checkbox">
-                                    <label class="checkbox-wrapper">
-                                        <input name="GenreIds" value="@genre.Id" checked="@Model.InputModel.GenreIds?.Contains(genre.Id)" type="checkbox" class="checkbox-input" />
-                                        <span class="checkbox-tile">
-                                            <span class="checkbox-icon">
-                                                <img class="categories-icons" src="@genre.Picture" alt="@genre.Name">
-                                            </span>
-                                            <span class="checkbox-label">@genre.Name</span>
-                                        </span>
-                                    </label>
-                                </div>
-                            }
-                        </fieldset>
-                    </div>
-                </form>
-            </div>
-
             <div class="categories-right-section">
                 @foreach (var book in Model.Books)
                 {
@@ -57,11 +28,18 @@
 
                 @if (Model.Books.Count() > 0)
                 {
-                    <h3 style="color:#FF0000";>Total Price: @Model.Books.Select(b => b.Price).Sum()</h3>
-                }
+                    <h3 style="color:#FF0000" ;>Total Price: @Model.Books.Select(b => b.Price).Sum()</h3>
 
-                <a hidden="hidden" id="buy-books" type="button" class="buy-books-in-cart-link" asp-controller="Book" asp-action="BuyBooksInCart">Buy Books</a>
-                <button type="button" class="buy-books-in-cart" onclick="document.getElementById('buy-books').click()">Buy Books</button>
+                    <a hidden="hidden" id="buy-books" type="button" class="buy-books-in-cart-link" asp-controller="Book" asp-action="BuyBooksInCart">Buy Books</a>
+                    <button type="button" class="buy-books-in-cart" onclick="document.getElementById('buy-books').click()">Buy Books <i class="fa fa-money" aria-hidden="true"></i></button>
+                }
+                else
+                {
+                    <div class="cart-section">
+                        <h3>Cart is empty</h3>
+                        <img src="/images/emptycart.png" alt="No books in cart" class="empty-cart" />
+                    </div>
+                }
             </div>
         </div>
     </div>
