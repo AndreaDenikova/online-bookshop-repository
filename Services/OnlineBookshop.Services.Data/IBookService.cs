@@ -27,4 +27,6 @@ public interface IBookService
     Book GetBook(string bookId);
 
     double GetBookRatings(string bookId);
+
+    bool IsBookOwned(string bookId, string userId);
 }

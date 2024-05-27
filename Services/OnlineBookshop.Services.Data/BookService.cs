@@ -130,26 +130,39 @@ public class BookService : IBookService
         return 0;
     }
 
+    public bool IsBookOwned(string bookId, string userId)
+    {
+        return this.userBookRepository.All().ToList().Exists(o => o.BookId == bookId && o.UserId == userId);
+    }
+
     public async Task PostEditedBookAsync(NewBookInputModel input)
     {
         var book = this.bookRepository.All().Single(b => b.Id == input.Id);
 
         if (book != null)
         {
-            book = new Book
+            book.Description = input.Description;
+            book.Pages = input.Pages;
+            book.Price = input.Price;
+            book.Year = input.Year;
+            book.LanguageId = input.LanguageId;
+            book.Publisher = input.Publisher;
+            book.Title = input.Title;
+
+            var coverFileName = string.Empty;
+            var bookFileName = string.Empty;
+
+            if (input.Cover != null)
             {
-                Description = input.Description,
-                Pages = input.Pages,
-                Price = input.Price,
-                Year = input.Year,
-                LanguageId = input.LanguageId,
-                BookFile = input.BookFileName,
-                Cover = input.CoverName,
-                Publisher = input.Publisher,
-                Title = input.Title,
-                // TODO: add ModifiedOn = DateTime.Now
-                // TODO: add rating
-            };
+                coverFileName = this.GetFileNameAndSave("Uploads", input.Cover);
+                book.Cover = $"/Uploads/{coverFileName}";
+            }
+
+            if (input.BookFile != null)
+            {
+                bookFileName = this.GetFileNameAndSave("books", input.BookFile);
+                book.BookFile = $"/books/{bookFileName}";
+            }
 
             var bookAuthors = this.authorBookRepository.All().Where(a => a.BookId == input.Id);
             await bookAuthors.ForEachAsync(b => this.authorBookRepository.HardDelete(b));

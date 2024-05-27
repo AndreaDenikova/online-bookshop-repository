@@ -1,8 +1,9 @@
 namespace OnlineBookshop.Web
 {
+    using System.Reflection;
+    using AspNetCoreTemplate.Services.Mapping;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -15,11 +16,8 @@ namespace OnlineBookshop.Web
     using OnlineBookshop.Data.Repositories;
     using OnlineBookshop.Data.Seeding;
     using OnlineBookshop.Services.Data;
-    using OnlineBookshop.Services.Mapping;
     using OnlineBookshop.Services.Messaging;
     using OnlineBookshop.Web.ViewModels;
-    using System;
-    using System.Reflection;
 
     public class Program
     {

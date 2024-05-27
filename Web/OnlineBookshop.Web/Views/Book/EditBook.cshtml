@@ -24,6 +24,9 @@
         <div id="successfully-uploaded-book-message">@Model.InputModel.BookFileName</div>
         <div id="upload-book-error" hidden>Wrong file type. Please select a .pdf file.</div>
     </div>
+
+    <input type="hidden" name="id" value="@ViewBag.BookId" />
+
     <div class="form-field">
         <label for="title">Title</label>
         <input asp-for="InputModel.Title" type="text" id="title" name="title">

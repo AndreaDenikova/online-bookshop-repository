@@ -89,6 +89,8 @@ public class BookController : BaseController
             InputModel = inputModel,
         };
 
+        this.ViewBag.BookId = book.Id;
+
         return this.View(model);
     }
 

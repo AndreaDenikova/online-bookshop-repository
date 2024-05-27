@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Linq.Expressions;
-
+    using AspNetCoreTemplate.Services.Mapping;
     using AutoMapper.QueryableExtensions;
 
     public static class QueryableMappingExtensions

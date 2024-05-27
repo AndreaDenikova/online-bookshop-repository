@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "Reader Page";
+}
+
+<div class="reader-wrapper">
+    <div>
+        <div class="reader" id="reader">
+            <div class="reader-text">@ViewBag.Text</div>
+        </div>
+        <div class="reader-footer">
+            <div data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:110px;display: flex;background: #14213d;   border: none;   align-items: center;   justify-content: center;">
+                <img src="/icons/menu.svg" style="width: 40px; height:40px; cursor: pointer;" />
+            </div>
+
+            <a asp-controller="Catalog" asp-action="GetBookshelfCatalog" class="home-button"></a>
+
+            <div style="display: flex;   align-items: center;   justify-content: center; width: 110px;">
+                @if (ViewBag.Page > 1)
+                {
+                    <a asp-action="Book" asp-route-page="@(ViewBag.Page - 1)" id="left-arrow" class="arrow-button"><img src="/icons/arrow.svg" style="  transform: rotate(270deg);" /></a>
+                }
+                else
+                {
+                    <div class="placeholder-button"></div>
+                }
+
+                @if (ViewBag.Page < ViewBag.PageCount)
+                {
+                    <a asp-action="Book" asp-route-page="@(ViewBag.Page + 1)" id="right-arrow" class="arrow-button"><img src="/icons/arrow.svg" style="  transform: rotate(90deg);" /></a>
+                }
+                else
+                {
+                    <div class="placeholder-button"></div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preferences Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reader Preferences</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/" method="post">
+                    <div class="mb-3">
+                        <label for="font-size-input" class="form-label">Font Size</label>
+                        <input type="number" class="form-control" id="font-size-input">
+                    </div>
+                    <div class="mb-3">
+                        <label for="font-family-input" class="form-label">Font Family</label>
+                        <select class="form-select" id="font-family-input">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="mb-3">
+                            <label for="font-color-input" class="form-label">Font Color</label>
+                            <input type="color" class="form-control" id="font-color-input" style="width:50px;">
+                        </div>
+                        <div class="mb-3">
+                            <label for="background-size-input" class="form-label">Background Color</label>
+                            <input type="color" class="form-control" id="background-color-input" style="width:50px;">
+                        </div>
+                        <div></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    window.onload = function () {
+        document.getElementById('reader').focus();
+    };
+
+    document.onkeydown = function (e) {
+        switch (e.keyCode) {
+            case 37:
+                document.getElementById('left-arrow').click();
+                break;
+            case 39:
+                document.getElementById('right-arrow').click();
+                break;
+        }
+    };
+</script>
+
+<style>
+    .reader-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .reader {
+        height: 730px;
+        width: 640px;
+        overflow: auto;
+        border: 15px solid #14213d;
+        border-bottom: none;
+        padding: 1em 2em;
+        border-radius: 2em 2em 0 0;
+        margin-top: 2em;
+    }
+
+    .reader-text {
+        white-space: break-spaces;
+    }
+
+    .reader-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 40px;
+        background: #14213d;
+        padding: 0.3em 1em;
+        border-radius: 0 0 0.75em 0.75em;
+        font-weight: bold;
+    }
+
+    .arrow-button {
+        cursor: pointer;
+        color: white;
+        text-decoration: none;
+        line-height: 0.6;
+        margin: 0 0.25em;
+    }
+
+        .arrow-button img {
+            width: 35px;
+            height: 35px;
+        }
+
+    .home-button {
+        width: 30px;
+        height: 30px;
+        background: white;
+        border-radius: 2em;
+    }
+
+    .placeholder-button {
+        width: 55px;
+        height: 35px;
+    }
+
+    .reader:focus {
+        outline: none;
+    }
+</style>

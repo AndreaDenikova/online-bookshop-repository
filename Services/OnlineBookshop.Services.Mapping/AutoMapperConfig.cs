@@ -1,4 +1,4 @@
-﻿namespace OnlineBookshop.Services.Mapping
+﻿namespace AspNetCoreTemplate.Services.Mapping
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +7,7 @@
 
     using AutoMapper;
     using AutoMapper.Configuration;
+    using OnlineBookshop.Services.Mapping;
 
     public static class AutoMapperConfig
     {
