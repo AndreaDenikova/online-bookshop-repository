@@ -152,6 +152,7 @@ public class BookController : BaseController
     {
         var userId = this.userManager.GetUserId(this.User);
         await this.bookService.BuyBooksInCartAsync(userId);
+
         // TODO: change redirect page
         return this.Redirect("/Catalog/GetCartCatalog");
     }
@@ -200,6 +201,7 @@ public class BookController : BaseController
             Language = language, // TODO: fix it to be possible to add more than 1 language ??
             Price = book.Price,
             CoverUrl = Environment.CurrentDirectory + "/wwwroot" + book.Cover,
+            Rate = this.bookService.GetBookRatings(),
         };
 
         return this.View(model);
@@ -213,13 +215,4 @@ public class BookController : BaseController
 
         return this.Redirect("/Catalog/Catalog");
     }
-
-    //[Authorize]
-    //public async Task<IActionResult> ViewBook(ViewBookInputModel input)
-    //{
-    //    var userId = this.userManager.GetUserId(this.User);
-    //    //await this.bookService.RateBookAsync(input, userId);
-
-    //    return this.Redirect("/Catalog/ViewBook");
-    //}
 }

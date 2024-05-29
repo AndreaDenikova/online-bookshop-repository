@@ -1,5 +1,6 @@
 ﻿namespace OnlineBookshop.Services.Data;
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OnlineBookshop.Data.Models;
 using OnlineBookshop.Web.ViewModels.InputModels;
@@ -27,6 +28,8 @@ public interface IBookService
     Task RateBookAsync(RateBookInputModel input, string userId);
 
     Book GetBook(string bookId);
+
+    List<UserBookRate> GetBookRatings();
 
     double GetBookRatings(string bookId);
 

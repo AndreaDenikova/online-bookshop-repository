@@ -1,6 +1,7 @@
 ﻿namespace OnlineBookshop.Services.Data;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -132,6 +133,8 @@ public class BookService : IBookService
 
         return 0;
     }
+
+    public List<UserBookRate> GetBookRatings() => [.. this.userBookRateRepository.All()];
 
     public bool IsBookOwned(string bookId, string userId)
     {

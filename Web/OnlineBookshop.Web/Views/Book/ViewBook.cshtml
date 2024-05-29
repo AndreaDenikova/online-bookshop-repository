@@ -45,4 +45,11 @@
     <div class="form-field">
         <label for="language">Language: @Model.Language.Name</label>
     </div>
+    <label>Reviews</label>
+    @foreach (var rate in Model.Rate)
+    {
+        <label>@rate.Rating</label>
+        <label>@rate.Comment</label>
+        <label>----------------------------------------------------------------</label>
+    }
 </form>
