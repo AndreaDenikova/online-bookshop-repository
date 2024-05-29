@@ -22,6 +22,8 @@ public interface IBookService
 
     Task BuyBooksInCartAsync(string userId);
 
+    Task ReportBookAsync(string userId, string bookId);
+
     Task RateBookAsync(RateBookInputModel input, string userId);
 
     Book GetBook(string bookId);

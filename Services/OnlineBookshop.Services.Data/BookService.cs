@@ -20,6 +20,7 @@ public class BookService : IBookService
     private readonly IDeletableEntityRepository<UserBookCart> userBookCartRepository;
     private readonly IDeletableEntityRepository<UserBook> userBookRepository;
     private readonly IDeletableEntityRepository<UserBookRate> userBookRateRepository;
+    private readonly IDeletableEntityRepository<ReportedBooks> reportedBooksRepository;
     private readonly IHostingEnvironment environment;
 
     public BookService(
@@ -30,6 +31,7 @@ public class BookService : IBookService
         IDeletableEntityRepository<UserBookCart> userBookCartRepository,
         IDeletableEntityRepository<UserBook> userBookRepository,
         IDeletableEntityRepository<UserBookRate> userBookRateRepository,
+        IDeletableEntityRepository<ReportedBooks> reportedBooksRepository,
         IHostingEnvironment environment)
     {
         this.bookRepository = bookRepository;
@@ -39,6 +41,7 @@ public class BookService : IBookService
         this.userBookCartRepository = userBookCartRepository;
         this.userBookRepository = userBookRepository;
         this.userBookRateRepository = userBookRateRepository;
+        this.reportedBooksRepository = reportedBooksRepository;
         this.environment = environment;
     }
 
@@ -264,6 +267,22 @@ public class BookService : IBookService
         this.favoriteBookRepository.HardDelete(favoriteBook);
 
         await this.favoriteBookRepository.SaveChangesAsync();
+    }
+
+    public async Task ReportBookAsync(string userId, string bookId)
+    {
+        var reported = this.reportedBooksRepository.All().FirstOrDefault(f => f.UserId == userId && f.BookId == bookId);
+        if (reported == null)
+        {
+            var reportedBook = new ReportedBooks
+            {
+                UserId = userId,
+                BookId = bookId,
+            };
+
+            await this.reportedBooksRepository.AddAsync(reportedBook);
+            await this.reportedBooksRepository.SaveChangesAsync();
+        }
     }
 
     private string GetFileNameAndSave(string folder, IFormFile file)

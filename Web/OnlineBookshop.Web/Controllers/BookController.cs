@@ -205,6 +205,15 @@ public class BookController : BaseController
         return this.View(model);
     }
 
+    [Authorize]
+    public async Task<IActionResult> ReportBook(string bookId)
+    {
+        var userId = this.userManager.GetUserId(this.User);
+        await this.bookService.ReportBookAsync(userId, bookId);
+
+        return this.Redirect("/Catalog/Catalog");
+    }
+
     //[Authorize]
     //public async Task<IActionResult> ViewBook(ViewBookInputModel input)
     //{
