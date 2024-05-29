@@ -1,6 +1,7 @@
 ﻿namespace OnlineBookshop.Services.Data;
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using OnlineBookshop.Data.Common.Repositories;
@@ -10,15 +11,14 @@ using OnlineBookshop.Web.ViewModels.InputModels;
 public class AuthorService : IAuthorService
 {
     private readonly IDeletableEntityRepository<Author> authorRepository;
-    private readonly IHostingEnvironment environment;
 
     public AuthorService(
-        IDeletableEntityRepository<Author> authorRepository,
-        IHostingEnvironment environment)
+        IDeletableEntityRepository<Author> authorRepository)
     {
         this.authorRepository = authorRepository;
-        this.environment = environment;
     }
+
+    public Author GetAuthor(string authorId) => this.authorRepository.All().Single(a => a.Id == authorId);
 
     public async Task PostNewAuthorAsync(NewAuthorInputModel input)
     {
