@@ -19,4 +19,6 @@ public class BookViewModel
     public List<Author> Authors { get; set; }
 
     public double Rating { get; set; }
+
+    public int CurrentPage { get; set; }
 }

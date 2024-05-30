@@ -5,6 +5,7 @@ using OnlineBookshop.Data;
 using OnlineBookshop.Data.Models;
 using OnlineBookshop.Services.Data;
 using System;
+using System.Linq;
 
 namespace OnlineBookshop.Web.Controllers
 {
@@ -49,6 +50,16 @@ namespace OnlineBookshop.Web.Controllers
             this.ViewBag.Text = text;
             this.ViewBag.Page = page;
             this.ViewBag.PageCount = pageCount;
+
+            var userBook = this.dbContext
+                .UserBook
+                .FirstOrDefault(x => x.BookId == bookId && x.UserId == this.userManager.GetUserId(this.User));
+
+            if (userBook != null)
+            {
+                userBook.CurrentPage = page;
+                this.dbContext.SaveChanges();
+            }
 
             return this.View();
         }

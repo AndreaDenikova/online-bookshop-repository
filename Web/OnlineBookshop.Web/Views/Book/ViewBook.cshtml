@@ -1,55 +1,131 @@
 ﻿@using OnlineBookshop.Common
+@using System.Text
 @model OnlineBookshop.Web.ViewModels.ViewModels.ViewBookViewModel
 @{
     this.ViewData["Title"] = "NewBook";
+
+    string GetStars(double rating)
+    {
+        int fullStars = (int)(rating / 1);
+        var hasHalfStar = rating % 1 > 0;
+        var hollowStars = 5 - fullStars;
+        if (hasHalfStar)
+        {
+            hollowStars--;
+        }
+
+        var sb = new StringBuilder();
+
+        for (int i = 0; i < fullStars; i++)
+        {
+            sb.Append("<i class=\"fa-solid fa-star\" style=\"color: gold;\"></i>");
+        }
+
+        if (hasHalfStar)
+        {
+            sb.Append("<i class=\"fa-regular fa-star-half-stroke\" style=\"color: gold;\"></i>");
+        }
+
+        for (int i = 0; i < hollowStars; i++)
+        {
+            sb.Append("<i class=\"fa-regular fa-star\" style=\"color: gold;\"></i>");
+        }
+
+        return sb.ToString();
+    }
+
+    double average = 0.0;
+
+    if (Model.Rate is not null && Model.Rate.Count > 0)
+    {
+        average = Model.Rate.Average(r => r.Rating);
+    }
 }
 
-<form method="post" enctype="multipart/form-data">
-    <div class="form-field">
-        <label for="title">@Model.Title</label>
+<div style="display: flex;   gap: 50px;   padding: 3em 0;">
+    <img src="@Model.CoverUrl" alt="cover" style="width: 300px;" />
+    <div style="  width: 600px;">
+        <h1 style="color: #14213d;">@Model.Title</h1>
+        <div style="display: flex;   gap: 50px;   margin-bottom: 4em;   margin-top: 3em;">
+            <div>
+                <div style="color: #14213d;"><strong>Authors:</strong></div>
+                <div style="color: #14213d;"><strong>Publisher:</strong></div>
+                <div style="color: #14213d;"><strong>Genres:</strong></div>
+                <div style="color: #14213d;"><strong>Pages:</strong></div>
+                <div style="color: #14213d;"><strong>Year:</strong></div>
+                <div style="color: #14213d;"><strong>Language:</strong></div>
+            </div>
+            <div style="  font-style: italic;">
+                <div>@string.Join(", ", Model.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
+                <div>@Model.Publisher</div>
+                <div>@string.Join(", ", Model.Genres.Select(g => g.Name))</div>
+                <div>@Model.Pages</div>
+                <div>@Model.Year</div>
+                <div>@Model.Language.Name</div>
+            </div>
+        </div>
+        <div style="color: #14213d;"><strong>Description:</strong></div>
+        <div style="  text-align: justify;">@Model.Description</div>
     </div>
-    <div class="form-field">
-        <img src="@Model.CoverUrl" alt="cover">
-    </div>
-    <div class="form-field">
-        <label>Authors:</label>
-        @foreach (var author in Model.Authors)
-        {
-            <label>@author.FirstName @author.LastName</label>
-        }
-    </div>
-    <div class="form-field">
-        <label for="publisher">Publisher: @Model.Publisher</label>
-    </div>
-    <div class="form-field">
-        <fieldset class="checkbox-group">
-            <legend class="checkbox-group-legend">Genres:</legend>
-            @foreach (var genre in Model.Genres)
+    <div>
+        <div style="font-size:25px;  margin-bottom: 1em;"><strong style="color: #14213d;">Price: </strong> $@Model.Price</div>
+        <div style="display: flex;   gap: 19px;   align-items: center;">
+            @if (User.IsInRole("Administrator"))
             {
-                <label>@genre.Name</label>
+                <a hidden="hidden" id="edit-@Model.Id" type="button" class="edit-book-button-link" asp-controller="Book" asp-action="EditBook" asp-route-bookId="@Model.Id">Edit</a>
+                <button type="button" class="edit-book-button" onclick="document.getElementById('edit-@Model.Id').click()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                <a hidden="hidden" id="remove-@Model.Id" type="button" class="delete-book-button-link" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@Model.Id">Delete</a>
+                <button type="button" class="delete-book-button" data-bs-toggle="modal" data-bs-target="#delete-book-modal"><i class="fa-solid fa-trash"></i></button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="delete-book-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this book?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="button" class="btn btn-danger" onclick="document.getElementById('remove-@Model.Id').click()" data-bs-dismiss="modal">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </fieldset>
+            else
+            {
+                <a hidden="hidden" id="tofavorites-@Model.Id" type="button" class="add-book-to-favorites-button-link" asp-controller="Book" asp-action="AddBookToFavorites" asp-route-bookId="@Model.Id">Add To Favorites</a>
+                <button type="button" class="add-book-to-favorites-button" onclick="document.getElementById('tofavorites-@Model.Id').click()"><i class="fa fa-heart" aria-hidden="true"></i></button>
+                <a hidden="hidden" id="add-book-to-cart-@Model.Id" type="button" class="add-book-to-cart-button-link" asp-controller="Book" asp-action="AddBookToCart" asp-route-bookId="@Model.Id">Add To Cart</a>
+                <button type="button" class="add-book-to-cart-button" onclick="document.getElementById('add-book-to-cart-@Model.Id').click()"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+                <a hidden="hidden" id="report-book-@Model.Id" type="button" class="report-book-button-link" asp-controller="Book" asp-action="ReportBook" asp-route-bookId="@Model.Id">Report</a>
+                <button type="button" class="report-book-button" onclick="document.getElementById('report-book-@Model.Id').click()">
+                    <i class="fa fa-flag" aria-hidden="true"></i>
+                </button>
+            }
+        </div>
     </div>
-    <div class="form-field">
-        <label for="pages">Pages: @Model.Pages</label>
+</div>
+
+<div style="display: flex;   align-items: center;   gap: 10px;">
+    <div><strong>Reviews:</strong style="color: #14213d;"></div>
+    <div>@average</div>
+    <div>@Html.Raw(GetStars(average))</div>
+ </div>
+
+ <hr />
+@foreach (var rate in Model.Rate)
+{
+    <div style="  margin-bottom: 2em;">
+        <div>@rate.User?.UserName?.Split('@')[0]</div>
+        <div style="display: flex;   align-items: center;   gap: 10px;">
+            <div>@rate.Rating</div>
+            <div>@Html.Raw(GetStars(rate.Rating))</div>
+        </div>
+        <div>@rate.Comment</div>
     </div>
-    <div class="form-field">
-        <label for="year">Year: @Model.Year</label>
-    </div>
-    <div class="form-field">
-        <label for="description">Description: @Model.Description</label>
-    </div>
-    <div class="form-field">
-        <label for="price">Price: @Model.Price</label>
-    </div>
-    <div class="form-field">
-        <label for="language">Language: @Model.Language.Name</label>
-    </div>
-    <label>Reviews</label>
-    @foreach (var rate in Model.Rate)
-    {
-        <label>@rate.Rating</label>
-        <label>@rate.Comment</label>
-        <label>----------------------------------------------------------------</label>
-    }
-</form>
+}

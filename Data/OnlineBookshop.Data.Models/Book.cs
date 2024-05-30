@@ -41,4 +41,6 @@ public class Book : BaseDeletableModel<string>
     public virtual ICollection<AuthorBook> Authors { get; set; }
 
     public virtual ICollection<GenreBook> Genres { get; set; }
+
+    public virtual ICollection<UserBookRate> UserBookRates { get; set; }
 }

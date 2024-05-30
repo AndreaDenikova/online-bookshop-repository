@@ -116,6 +116,8 @@ public class BookService : IBookService
             .ThenInclude(a => a.Author)
             .Include(b => b.Genres)
             .ThenInclude(a => a.Genre)
+            .Include(b => b.UserBookRates)
+            .ThenInclude(r => r.User)
             .Single(b => b.Id == bookId);
 
     public double GetBookRatings(string bookId)
@@ -134,7 +136,19 @@ public class BookService : IBookService
         return 0;
     }
 
-    public List<UserBookRate> GetBookRatings() => [.. this.userBookRateRepository.All()];
+    public List<UserBookRate> GetBookReviews(string bookId) =>
+        [.. this.userBookRateRepository.All().Where(b => b.BookId == bookId)];
+
+    public int GetCurrentPage(string bookId, string userId)
+    {
+        var res = this.userBookRepository
+            .All()
+            .Where(u => u.BookId == bookId && u.UserId == userId)
+            .Select(u => u.CurrentPage)
+            .FirstOrDefault();
+
+        return res;
+    }
 
     public bool IsBookOwned(string bookId, string userId)
     {

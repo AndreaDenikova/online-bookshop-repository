@@ -129,6 +129,7 @@ public class CatalogController : BaseController
             CoverUrl = b.Cover,
             Price = b.Price,
             Authors = b.Authors?.Select(a => a.Author).ToList(),
+            CurrentPage = this.bookService.GetCurrentPage(b.Id, userId),
         }).ToList();
 
         var genres = this.dbContext.Genre.ToList();

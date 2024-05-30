@@ -200,8 +200,8 @@ public class BookController : BaseController
             Description = book.Description,
             Language = language, // TODO: fix it to be possible to add more than 1 language ??
             Price = book.Price,
-            CoverUrl = Environment.CurrentDirectory + "/wwwroot" + book.Cover,
-            Rate = this.bookService.GetBookRatings(),
+            CoverUrl = book.Cover,
+            Rate = this.bookService.GetBookReviews(bookId),
         };
 
         return this.View(model);

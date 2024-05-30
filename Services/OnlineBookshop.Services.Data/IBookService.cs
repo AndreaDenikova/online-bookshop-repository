@@ -29,7 +29,9 @@ public interface IBookService
 
     Book GetBook(string bookId);
 
-    List<UserBookRate> GetBookRatings();
+    List<UserBookRate> GetBookReviews(string bookId);
+
+    int GetCurrentPage(string bookId, string userId);
 
     double GetBookRatings(string bookId);
 

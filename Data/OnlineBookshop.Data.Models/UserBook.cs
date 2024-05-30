@@ -11,4 +11,6 @@ public class UserBook : BaseDeletableModel<string>
     public virtual Book Book { get; set; }
 
     public string BookId { get; set; }
+
+    public int CurrentPage { get; set; }
 }
