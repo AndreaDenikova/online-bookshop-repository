@@ -1,0 +1,132 @@
+﻿@model OnlineBookshop.Web.ViewModels.ViewModels.BookForCategoriesViewModel;
+@using OnlineBookshop.Common;
+@using System.Text
+@{
+    this.ViewData["Title"] = "ViewReportedBooks";
+
+    string GetStars(double rating)
+    {
+        int fullStars = (int)(rating / 1);
+        var hasHalfStar = rating % 1 > 0;
+        var hollowStars = 5 - fullStars;
+        if (hasHalfStar)
+        {
+            hollowStars--;
+        }
+
+        var sb = new StringBuilder();
+
+        for (int i = 0; i < fullStars; i++)
+        {
+            sb.Append("<i class=\"fa-solid fa-star\" style=\"color: gold;\"></i>");
+        }
+
+        if (hasHalfStar)
+        {
+            sb.Append("<i class=\"fa-regular fa-star-half-stroke\" style=\"color: gold;\"></i>");
+        }
+
+        for (int i = 0; i < hollowStars; i++)
+        {
+            sb.Append("<i class=\"fa-regular fa-star\" style=\"color: gold;\"></i>");
+        }
+
+        return sb.ToString();
+    }
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="catalog-wrapper">
+    <div>
+        <div class="categories-wrapper">
+            <div class="categories-left-section">
+                <form class="form-search-box">
+                    <div class="d-flex">
+                        <input asp-for="InputModel.AuthorBookTitle" id="search" type="search" name="authorBookTitle" placeholder="Author, Book" pattern=".*\S.*">
+                        <span class="caret"></span>
+                        <input type="submit" value="Go" class="search-button">
+                    </div>
+                    <div class="form-field">
+                        <fieldset class="checkbox-group">
+                            <legend class="checkbox-group-legend">Choose book genres</legend>
+                            @foreach (var genre in Model.Genres)
+                            {
+                                <div class="checkbox">
+                                    <label class="checkbox-wrapper">
+                                        <input name="GenreIds" value="@genre.Id" checked="@Model.InputModel.GenreIds?.Contains(genre.Id)" type="checkbox" class="checkbox-input" />
+                                        <span class="checkbox-tile">
+                                            <span class="checkbox-icon">
+                                                <img class="categories-icons" src="@genre.Picture" alt="@genre.Name">
+                                            </span>
+                                            <span class="checkbox-label">@genre.Name</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            }
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+
+
+            @if (Model.Books.Count() == 0)
+            {
+
+                <div class="categories-right-section" style="flex-direction: column;">
+                    <h3>No books found</h3>
+                    <img src="/images/bookNotFound.png" alt="No books found image" class="not-found-book" />
+                </div>
+            }
+            else
+            {
+                <div class="categories-right-section">
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="book-info-summary">
+                            <img src="@book.CoverUrl" class="book-cover" alt="cover">
+                            <div class="book-short-info">
+                                <div>
+                                    <div class="book-title">@book.Title</div>
+                                    <div class="book-rating">Rating: @Html.Raw(GetStars(book.Rating))</div>
+                                    <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
+                                    <div class="book-price">$@book.Price</div>
+                                </div>
+                                <div>
+                                    <a hidden="hidden" id="edit-@book.Id" type="button" class="edit-book-button-link" asp-controller="Book" asp-action="EditBook" asp-route-bookId="@book.Id">Edit</a>
+                                    <button type="button" class="edit-book-button" onclick="document.getElementById('edit-@book.Id').click()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    <a hidden="hidden" id="remove-@book.Id" type="button" class="delete-book-button-link" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Delete</a>
+                                    <button type="button" class="delete-book-button" data-bs-toggle="modal" data-bs-target="#delete-book-modal"><i class="fa-solid fa-trash"></i></button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="delete-book-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete this book?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('remove-@book.Id').click()" data-bs-dismiss="modal">Yes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a hidden="hidden" id="view-book-@book.Id" type="button" class="view-book-button-link" asp-controller="Book" asp-action="ViewBook" asp-route-bookId="@book.Id">Details</a>
+                                    <button type="button" class="view-book-button" onclick="document.getElementById('view-book-@book.Id').click()"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+                                    <a hidden="hidden" id="remove-report-book-@book.Id" type="button" class="remove-report-book-link" asp-controller="Book" asp-action="RemoveBookFromReported" asp-route-bookId="@book.Id">Remove from reported</a>
+                                    <button type="button" class="remove-report-button" onclick="document.getElementById('remove-report-book-@book.Id').click()">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

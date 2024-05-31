@@ -286,6 +286,18 @@ public class BookService : IBookService
         await this.favoriteBookRepository.SaveChangesAsync();
     }
 
+    public async Task RemoveBookFromReportedAsync(string bookId)
+    {
+        var reportedBook = this.reportedBooksRepository.All().Where(f => f.BookId == bookId);
+
+        foreach (var report in reportedBook)
+        {
+            this.reportedBooksRepository.HardDelete(report);
+        }
+
+        await this.reportedBooksRepository.SaveChangesAsync();
+    }
+
     public async Task ReportBookAsync(string userId, string bookId)
     {
         var reported = this.reportedBooksRepository.All().FirstOrDefault(f => f.UserId == userId && f.BookId == bookId);

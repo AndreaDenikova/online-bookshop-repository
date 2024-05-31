@@ -39,7 +39,7 @@ public class CatalogController : BaseController
             Price = b.Price,
             Authors = b.Authors?.Select(a => a.Author).ToList(),
             Rating = this.bookService.GetBookRatings(b.Id),
-        }).ToList();
+        }).OrderBy(b => b.Title).ToList();
 
         var genres = this.dbContext.Genre.ToList();
 
@@ -69,7 +69,7 @@ public class CatalogController : BaseController
             CoverUrl = b.Cover,
             Price = b.Price,
             Authors = b.Authors?.Select(a => a.Author).ToList(),
-        }).ToList();
+        }).OrderBy(b => b.Title).ToList();
 
         var genres = this.dbContext.Genre.ToList();
 
@@ -99,7 +99,7 @@ public class CatalogController : BaseController
             CoverUrl = b.Cover,
             Price = b.Price,
             Authors = b.Authors?.Select(a => a.Author).ToList(),
-        }).ToList();
+        }).OrderBy(b => b.Title).ToList();
 
         var genres = this.dbContext.Genre.ToList();
 
@@ -130,7 +130,7 @@ public class CatalogController : BaseController
             Price = b.Price,
             Authors = b.Authors?.Select(a => a.Author).ToList(),
             CurrentPage = this.bookService.GetCurrentPage(b.Id, userId),
-        }).ToList();
+        }).OrderBy(b => b.Title).ToList();
 
         var genres = this.dbContext.Genre.ToList();
 
@@ -138,6 +138,33 @@ public class CatalogController : BaseController
         {
             input = new CatalogFilterInputModel();
         }
+
+        var model = new BookForCategoriesViewModel
+        {
+            Books = books,
+            Genres = genres,
+            InputModel = input,
+        };
+
+        return this.View(model);
+    }
+
+    public IActionResult ViewReportedBooks(CatalogFilterInputModel input)
+    {
+        var userId = this.userManager.GetUserId(this.User);
+
+        var books = this.catalogService.GetReportedBooks(input, userId).Select(b => new BookViewModel
+        {
+            Id = b.Id,
+            Title = b.Title,
+            CoverUrl = b.Cover,
+            Price = b.Price,
+            Authors = b.Authors?.Select(a => a.Author).ToList(),
+        }).OrderBy(b => b.Title).ToList();
+
+        var genres = this.dbContext.Genre.ToList();
+
+        input ??= new CatalogFilterInputModel();
 
         var model = new BookForCategoriesViewModel
         {

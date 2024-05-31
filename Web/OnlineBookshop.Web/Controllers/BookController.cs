@@ -215,4 +215,12 @@ public class BookController : BaseController
 
         return this.Redirect("/Catalog/Catalog");
     }
+
+    [Authorize]
+    public async Task<IActionResult> RemoveBookFromReported(string bookId)
+    {
+        await this.bookService.RemoveBookFromReportedAsync(bookId);
+
+        return this.Redirect("/Catalog/ViewReportedBooks");
+    }
 }

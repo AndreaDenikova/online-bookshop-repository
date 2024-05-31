@@ -25,6 +25,8 @@ public interface IBookService
 
     Task ReportBookAsync(string userId, string bookId);
 
+    Task RemoveBookFromReportedAsync(string bookId);
+
     Task RateBookAsync(RateBookInputModel input, string userId);
 
     Book GetBook(string bookId);

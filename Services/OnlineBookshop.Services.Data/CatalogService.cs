@@ -15,6 +15,7 @@ public class CatalogService : ICatalogService
     private readonly IDeletableEntityRepository<UserBookCart> userBookCartRepository;
     private readonly IDeletableEntityRepository<UserBook> userBookRepository;
     private readonly IDeletableEntityRepository<UserBookRate> userBookRateRepository;
+    private readonly IDeletableEntityRepository<ReportedBooks> reportedBooksRepository;
 
     public CatalogService(
         IDeletableEntityRepository<Book> bookRepository,
@@ -22,7 +23,8 @@ public class CatalogService : ICatalogService
         IDeletableEntityRepository<FavoriteBook> favoriteBookRepository,
         IDeletableEntityRepository<UserBookCart> userBookCartRepository,
         IDeletableEntityRepository<UserBook> userBookRepository,
-        IDeletableEntityRepository<UserBookRate> userBookRateRepository)
+        IDeletableEntityRepository<UserBookRate> userBookRateRepository,
+        IDeletableEntityRepository<ReportedBooks> reportedBooksRepository)
     {
         this.bookRepository = bookRepository;
         this.genreBookRepository = genreBookRepository;
@@ -30,6 +32,7 @@ public class CatalogService : ICatalogService
         this.userBookCartRepository = userBookCartRepository;
         this.userBookRepository = userBookRepository;
         this.userBookRateRepository = userBookRateRepository;
+        this.reportedBooksRepository = reportedBooksRepository;
     }
 
     public IEnumerable<Book> GetBooks(CatalogFilterInputModel input, string userId)
@@ -223,7 +226,7 @@ public class CatalogService : ICatalogService
         var searchIsMade = false;
         var userFavoriteBooksIds = this.favoriteBookRepository.All().Where(f => f.UserId == userId).Select(f => f.BookId);
 
-        if (input.GenreIds != null && input.GenreIds.Any())
+        if (input.GenreIds?.Any() == true)
         {
             var booksIdsByGenre = this.genreBookRepository.All().Where(b => input.GenreIds.Contains(b.GenreId));
             result.AddRange(this.bookRepository
@@ -242,9 +245,7 @@ public class CatalogService : ICatalogService
 
         if (input.AuthorBookTitle?.Length > 0)
         {
-            var splittedAuthorBookTitle = input.AuthorBookTitle.Split(", ");
-
-            foreach (var authorOrBookTitle in splittedAuthorBookTitle)
+            foreach (var authorOrBookTitle in input.AuthorBookTitle.Split(", "))
             {
                 result.AddRange(this.bookRepository
                         .All()
@@ -273,13 +274,68 @@ public class CatalogService : ICatalogService
                 .DistinctBy(b => b.Id);
         }
 
-        return this.bookRepository
+        return [.. this.bookRepository
             .All()
             .Include(b => b.Authors)
             .ThenInclude(a => a.Author)
             .Include(b => b.Genres)
             .ThenInclude(a => a.Genre)
-            .Where(b => !b.IsDeleted && userFavoriteBooksIds.Contains(b.Id) && !ownedBooks.Contains(b.Id))
-            .ToList();
+            .Where(b => !b.IsDeleted && userFavoriteBooksIds.Contains(b.Id) && !ownedBooks.Contains(b.Id))];
+    }
+
+    public IEnumerable<Book> GetReportedBooks(CatalogFilterInputModel input, string userId)
+    {
+        var result = new List<Book>();
+        var searchIsMade = false;
+        var reportedBookIds = this.reportedBooksRepository.All().Select(f => f.BookId);
+
+        if (input.GenreIds?.Any() == true)
+        {
+            var booksIdsByGenre = this.genreBookRepository.All().Where(b => input.GenreIds.Contains(b.GenreId));
+            result.AddRange([.. this.bookRepository
+                    .All()
+                    .Where(b => booksIdsByGenre
+                    .Select(b => b.BookId)
+                    .Contains(b.Id))
+                    .Include(b => b.Authors)
+                    .ThenInclude(a => a.Author)
+                    .Include(b => b.Genres)
+                    .ThenInclude(a => a.Genre)]);
+
+            searchIsMade = true;
+        }
+
+        if (input.AuthorBookTitle?.Length > 0)
+        {
+            foreach (var authorOrBookTitle in input.AuthorBookTitle.Split(", "))
+            {
+                result.AddRange([.. this.bookRepository
+                        .All()
+                        .Include(b => b.Authors)
+                        .ThenInclude(a => a.Author)
+                        .Include(b => b.Genres)
+                        .ThenInclude(a => a.Genre)
+                        .Where(b => b.Authors
+                        .Any(x => (x.Author.FirstName + " " + x.Author.LastName).Contains(authorOrBookTitle)) ||
+                            b.Title.Contains(authorOrBookTitle))]);
+            }
+
+            searchIsMade = true;
+        }
+
+        if (searchIsMade)
+        {
+            return result
+                .Where(b => reportedBookIds.Contains(b.Id)) // is it needed?
+                .DistinctBy(b => b.Id);
+        }
+
+        return [.. this.bookRepository
+            .All()
+            .Include(b => b.Authors)
+            .ThenInclude(a => a.Author)
+            .Include(b => b.Genres)
+            .ThenInclude(a => a.Genre)
+            .Where(b => reportedBookIds.Contains(b.Id))];
     }
 }
