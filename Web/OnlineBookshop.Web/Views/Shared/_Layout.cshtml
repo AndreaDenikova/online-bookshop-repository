@@ -64,7 +64,11 @@
             <section class="user-login-signin-cart">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a style="color:grey !important;" class="border-top-left-right" asp-controller="Catalog" asp-action="GetCartCatalog"><img class="shopping-cart" src="~/images/shopping.png"></a>
+                    @if (!User.IsInRole("Administrator"))
+                    {
+                        <a style="color:grey !important;" class="border-top-left-right" asp-controller="Catalog" asp-action="GetCartCatalog"><img class="shopping-cart" src="~/images/shopping.png"></a>
+                    }
+
                     <a class="log-out" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">Logout</a>
                 }
                 else

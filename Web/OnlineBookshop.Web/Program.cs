@@ -76,6 +76,7 @@ namespace OnlineBookshop.Web
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<ICatalogService, CatalogService>();
             services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IUserReaderSettingsService, UserReaderSettingsService>();
         }
 
         private static void Configure(WebApplication app)

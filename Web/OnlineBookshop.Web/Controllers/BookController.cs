@@ -1,8 +1,5 @@
 ﻿namespace OnlineBookshop.Web.Controllers;
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +8,10 @@ using OnlineBookshop.Data.Models;
 using OnlineBookshop.Services.Data;
 using OnlineBookshop.Web.ViewModels.InputModels;
 using OnlineBookshop.Web.ViewModels.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
+[Authorize]
 public class BookController : BaseController
 {
     private readonly ApplicationDbContext dbContext;
@@ -28,7 +28,6 @@ public class BookController : BaseController
         this.userManager = userManager;
     }
 
-    [Authorize]
     public IActionResult NewBook()
     {
         var genres = this.dbContext.Genre.ToList();
@@ -45,7 +44,6 @@ public class BookController : BaseController
         return this.View(model);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<IActionResult> NewBook(NewBookInputModel input)
     {
@@ -54,7 +52,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/Catalog");
     }
 
-    [Authorize]
     public IActionResult EditBook(string bookId)
     {
         var genres = this.dbContext.Genre.ToList();
@@ -94,7 +91,6 @@ public class BookController : BaseController
         return this.View(model);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<IActionResult> EditBook(NewBookInputModel input)
     {
@@ -103,7 +99,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/Catalog");
     }
 
-    [Authorize]
     public async Task<IActionResult> DeleteBook(string id)
     {
         await this.bookService.DeleteBookAsync(id);
@@ -111,7 +106,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/Catalog");
     }
 
-    [Authorize]
     public async Task<IActionResult> AddBookToFavorites(string bookId)
     {
         var userId = this.userManager.GetUserId(this.User);
@@ -120,7 +114,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/Catalog");
     }
 
-    [Authorize]
     public async Task<IActionResult> RemoveBookFromFavorites(string bookId)
     {
         var userId = this.userManager.GetUserId(this.User);
@@ -129,7 +122,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/GetFavoriteBooksCatalog");
     }
 
-    [Authorize]
     public async Task<IActionResult> AddBookToCart(string bookId)
     {
         var userId = this.userManager.GetUserId(this.User);
@@ -138,7 +130,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/Catalog");
     }
 
-    [Authorize]
     public async Task<IActionResult> RemoveBookFromCart(string bookId)
     {
         var userId = this.userManager.GetUserId(this.User);
@@ -147,7 +138,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/GetCartCatalog");
     }
 
-    [Authorize]
     public async Task<IActionResult> BuyBooksInCart()
     {
         var userId = this.userManager.GetUserId(this.User);
@@ -157,7 +147,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/GetCartCatalog");
     }
 
-    [Authorize]
     public IActionResult RateBook()
     {
         var model = new RateBookViewModel();
@@ -165,7 +154,6 @@ public class BookController : BaseController
         return this.View(model);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<IActionResult> RateBook(RateBookInputModel input)
     {
@@ -175,7 +163,14 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/GetBookshelfCatalog");
     }
 
-    [Authorize]
+    public async Task<IActionResult> DeleteComment(string rateId)
+    {
+        var bookId = await this.bookService.DeleteCommentFromRateAsync(rateId);
+
+        // TODO: fix redirect
+        return this.Redirect($"/Catalog/ViewBook?{bookId}");
+    }
+
     public IActionResult ViewBook(string bookId)
     {
         var genres = this.dbContext.GenreBook.Where(b => b.BookId == bookId).Select(g => g.Genre).ToList();
@@ -207,7 +202,6 @@ public class BookController : BaseController
         return this.View(model);
     }
 
-    [Authorize]
     public async Task<IActionResult> ReportBook(string bookId)
     {
         var userId = this.userManager.GetUserId(this.User);
@@ -216,7 +210,6 @@ public class BookController : BaseController
         return this.Redirect("/Catalog/Catalog");
     }
 
-    [Authorize]
     public async Task<IActionResult> RemoveBookFromReported(string bookId)
     {
         await this.bookService.RemoveBookFromReportedAsync(bookId);

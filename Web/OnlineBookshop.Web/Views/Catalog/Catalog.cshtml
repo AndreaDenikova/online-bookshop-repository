@@ -83,7 +83,7 @@
                     @foreach (var book in Model.Books)
                     {
                         <div class="book-info-summary">
-                            <img src="@book.CoverUrl" class="book-cover" alt="cover">
+                            <a asp-controller="Book" asp-action="ViewBook" asp-route-bookId="@book.Id" style="height:100%;"><img src="@book.CoverUrl" class="book-cover" alt="cover"></a>
                             <div class="book-short-info">
                                 <div>
                                     <div class="book-title">@book.Title</div>
@@ -129,8 +129,6 @@
                                             <i class="fa fa-flag" aria-hidden="true"></i>
                                         </button>
                                     }
-                                    <a hidden="hidden" id="view-book-@book.Id" type="button" class="view-book-button-link" asp-controller="Book" asp-action="ViewBook" asp-route-bookId="@book.Id">Details</a>
-                                    <button type="button" class="view-book-button" onclick="document.getElementById('view-book-@book.Id').click()"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>

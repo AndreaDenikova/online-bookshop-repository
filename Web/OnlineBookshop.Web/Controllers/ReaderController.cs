@@ -1,28 +1,37 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using OnlineBookshop.Data;
 using OnlineBookshop.Data.Models;
 using OnlineBookshop.Services.Data;
+using OnlineBookshop.Web.ViewModels.ViewModels;
 using System;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace OnlineBookshop.Web.Controllers
 {
+    [Authorize]
     public class ReaderController : BaseController
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IBookService bookService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserReaderSettingsService userReaderSettingsService;
 
         public ReaderController(
         ApplicationDbContext dbContext,
         IBookService bookService,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        IUserReaderSettingsService userReaderSettingsService)
         {
             this.dbContext = dbContext;
             this.bookService = bookService;
             this.userManager = userManager;
+            this.userReaderSettingsService = userReaderSettingsService;
         }
 
         [Route("/Reader/Book/{bookId}/{page}")]
@@ -50,6 +59,7 @@ namespace OnlineBookshop.Web.Controllers
             this.ViewBag.Text = text;
             this.ViewBag.Page = page;
             this.ViewBag.PageCount = pageCount;
+            this.ViewBag.BookId = bookId;
 
             var userBook = this.dbContext
                 .UserBook
@@ -61,7 +71,18 @@ namespace OnlineBookshop.Web.Controllers
                 this.dbContext.SaveChanges();
             }
 
-            return this.View();
+            var viewModel = this.userReaderSettingsService.GetReaderSettings(this.userManager.GetUserId(this.User)) ??
+                new UserReaderSettingsViewModel();
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveReaderSettings(UserReaderSettingsViewModel model, string bookId, int page)
+        {
+            await this.userReaderSettingsService.SaveReaderSettings(model, this.userManager.GetUserId(this.User));
+
+            return this.Redirect($"/Reader/Book/{bookId}/{page}");
         }
     }
 }

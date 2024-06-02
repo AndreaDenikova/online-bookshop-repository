@@ -102,12 +102,23 @@ public class BookService : IBookService
     public async Task DeleteBookAsync(string bookId)
     {
         var book = this.bookRepository.All().Where(b => b.Id == bookId).FirstOrDefault();
-        if (book != null)
+        if (book != null || !this.userBookRepository.All().Any(b => b.BookId == book.Id))
         {
             book.IsDeleted = true;
             this.bookRepository.Update(book);
             await this.bookRepository.SaveChangesAsync();
         }
+    }
+
+    public async Task<string> DeleteCommentFromRateAsync(string rateId)
+    {
+        var bookRate = this.userBookRateRepository.All().Single(r => r.Id == rateId);
+
+        bookRate.Comment = string.Empty;
+        this.userBookRateRepository.Update(bookRate);
+        await this.userBookRateRepository.SaveChangesAsync();
+
+        return bookRate.BookId;
     }
 
     public Book GetBook(string bookId) => this.bookRepository

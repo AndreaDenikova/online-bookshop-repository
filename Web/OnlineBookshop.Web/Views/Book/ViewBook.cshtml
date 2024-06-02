@@ -2,7 +2,7 @@
 @using System.Text
 @model OnlineBookshop.Web.ViewModels.ViewModels.ViewBookViewModel
 @{
-    this.ViewData["Title"] = "NewBook";
+    this.ViewData["Title"] = "BookDetails";
 
     string GetStars(double rating)
     {
@@ -43,7 +43,7 @@
 }
 
 <div style="display: flex;   gap: 50px;   padding: 3em 0;">
-    <img src="@Model.CoverUrl" alt="cover" style="width: 300px;" />
+    <img src="@Model.CoverUrl" alt="cover" style="width: 300px;  height: max-content;" />
     <div style="  width: 600px;">
         <h1 style="color: #14213d;">@Model.Title</h1>
         <div style="display: flex;   gap: 50px;   margin-bottom: 4em;   margin-top: 3em;">
@@ -127,5 +127,26 @@
             <div>@Html.Raw(GetStars(rate.Rating))</div>
         </div>
         <div>@rate.Comment</div>
+         <a hidden="hidden" id="remove-comment-@rate.Id" type="button" class="remove-comment-button-link" asp-controller="Book" asp-action="DeleteComment" asp-route-rateId="@rate.Id">Delete Comment</a>
+         <button type="button" class="remove-comment-button" data-bs-toggle="modal" data-bs-target="#delete-comment-modal"><i class="fa-solid fa-trash"></i></button>
+
+        <!-- Modal -->
+         <div class="modal fade" id="delete-comment-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this comment?
+                </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-danger" onclick="document.getElementById('remove-comment-@rate.Id').click()" data-bs-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+         </div>
     </div>
 }

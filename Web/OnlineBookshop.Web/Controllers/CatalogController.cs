@@ -1,6 +1,7 @@
 ﻿namespace OnlineBookshop.Web.Controllers;
 
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookshop.Data;
@@ -9,6 +10,7 @@ using OnlineBookshop.Services.Data;
 using OnlineBookshop.Web.ViewModels.InputModels;
 using OnlineBookshop.Web.ViewModels.ViewModels;
 
+[Authorize]
 public class CatalogController : BaseController
 {
     private readonly ApplicationDbContext dbContext;

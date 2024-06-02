@@ -12,7 +12,7 @@
                 @foreach (var book in Model.Books)
                 {
                     <div class="book-info-summary">
-                        <img src="@book.CoverUrl" class="book-cover" alt="cover">
+                        <a asp-controller="Book" asp-action="ViewBook" asp-route-bookId="@book.Id" style="height:100%;"><img src="@book.CoverUrl" class="book-cover" alt="cover"></a>
                         <div class="book-short-info">
                             <div class="book-title">@book.Title</div>
                             <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>

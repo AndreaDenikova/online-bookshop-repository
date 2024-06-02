@@ -1,6 +1,9 @@
-﻿@{
+﻿@using OnlineBookshop.Web.ViewModels.ViewModels
+@{
     ViewData["Title"] = "Reader Page";
 }
+
+@model UserReaderSettingsViewModel;
 
 <div class="reader-wrapper">
     <div>
@@ -46,36 +49,41 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/" method="post">
+                <form id="settings-form" asp-controller="Reader" asp-action="SaveReaderSettings" method="post">
                     <div class="mb-3">
                         <label for="font-size-input" class="form-label">Font Size</label>
-                        <input type="number" class="form-control" id="font-size-input">
+                        <input type="number" asp-for="FontSize" class="form-control" id="font-size-input">
                     </div>
                     <div class="mb-3">
                         <label for="font-family-input" class="form-label">Font Family</label>
-                        <select class="form-select" id="font-family-input">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select asp-for="Font" class="form-select" id="font-family-input">
+                            <option value="">Default</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Calibri">Calibri</option>
+                            <option value="Roboto">Roboto</option>
+                            <option value="Georgia">Georgia</option>
                         </select>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="mb-3">
                             <label for="font-color-input" class="form-label">Font Color</label>
-                            <input type="color" class="form-control" id="font-color-input" style="width:50px;">
+                            <input type="color" asp-for="FontColor" class="form-control" id="font-color-input" style="width:50px;">
                         </div>
                         <div class="mb-3">
                             <label for="background-size-input" class="form-label">Background Color</label>
-                            <input type="color" class="form-control" id="background-color-input" style="width:50px;">
+                            <input type="color" asp-for="BackgroundColor" class="form-control" id="background-color-input" style="width:50px;">
                         </div>
                         <div></div>
                     </div>
+                    <input type="hidden" name="bookId" value="@ViewBag.BookId" />
+                    <input type="hidden" name="page" value="@ViewBag.Page" />
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="submit()">Save changes</button>
             </div>
         </div>
     </div>
@@ -84,6 +92,12 @@
 
 <script>
     window.onload = function () {
+        document.documentElement.style.setProperty("--reader-font", '@Model.Font');
+        document.documentElement.style.setProperty("--reader-font-size", @Model.FontSize);
+        document.documentElement.style.setProperty("--reader-font-color", '@Model.FontColor');
+        document.documentElement.style.setProperty("--reader-background-color", '@Model.BackgroundColor');
+        document.documentElement.style.setProperty("--reader-font-text-align", '@Model.TextAlign');
+
         document.getElementById('reader').focus();
     };
 
@@ -97,6 +111,10 @@
                 break;
         }
     };
+
+    function submit(){
+        document.getElementById('settings-form').submit();
+    }
 </script>
 
 <style>
@@ -114,10 +132,14 @@
         padding: 1em 2em;
         border-radius: 2em 2em 0 0;
         margin-top: 2em;
+        background: var(--reader-background-color, white);
     }
 
     .reader-text {
         white-space: break-spaces;
+        color: var(--reader-font-color, black);
+        font-family: var(--reader-font, black);
+        font-size: var(--reader-font-size, 16px);
     }
 
     .reader-footer {

@@ -1,9 +1,15 @@
 ﻿namespace OnlineBookshop.Data.Models;
 
+using System;
 using OnlineBookshop.Data.Common.Models;
 
 public class UserBookRate : BaseDeletableModel<string>
 {
+    public UserBookRate()
+    {
+        this.Id = Guid.NewGuid().ToString();
+    }
+
     public virtual ApplicationUser User { get; set; }
 
     public string UserId { get; set; }

@@ -10,6 +10,7 @@ using OnlineBookshop.Services.Data;
 using OnlineBookshop.Web.ViewModels.InputModels;
 using OnlineBookshop.Web.ViewModels.ViewModels;
 
+[Authorize]
 public class AuthorController : BaseController
 {
     private readonly ApplicationDbContext dbContext;
@@ -29,7 +30,6 @@ public class AuthorController : BaseController
         this.userManager = userManager;
     }
 
-    [Authorize]
     public IActionResult NewAuthor()
     {
         var model = new NewAuthorViewModel();
@@ -37,7 +37,6 @@ public class AuthorController : BaseController
         return this.View(model);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<IActionResult> NewAuthor(NewAuthorInputModel input)
     {
