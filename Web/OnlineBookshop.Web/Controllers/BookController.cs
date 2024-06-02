@@ -167,8 +167,7 @@ public class BookController : BaseController
     {
         var bookId = await this.bookService.DeleteCommentFromRateAsync(rateId);
 
-        // TODO: fix redirect
-        return this.Redirect($"/Catalog/ViewBook?{bookId}");
+        return this.Redirect($"/Book/ViewBook?bookId={bookId}");
     }
 
     public IActionResult ViewBook(string bookId)

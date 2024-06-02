@@ -235,7 +235,7 @@ body {
 .edit-book-button, .delete-book-button, .add-book-to-favorites-button,
 .remove-book-from-favorites-button, .add-book-to-cart-button, .remove-from-cart,
 .buy-books-in-cart, .read-book-button, .rate-book-button, .view-book-button, .report-book-button,
-.remove-report-button {
+.remove-report-button, .remove-comment-button {
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 10px 14px; /* Some padding */
@@ -245,7 +245,7 @@ body {
 }
 
 .delete-book-button, .remove-book-from-favorites-button, .remove-from-cart,
-.report-book-button, .remove-report-button {
+.report-book-button, .remove-report-button, .remove-comment-button {
     background-color: darkred;
 }
 
@@ -267,7 +267,7 @@ body {
 }
 
 .delete-book-button:hover, .remove-book-from-favorites-button:hover, .remove-from-cart:hover,
-.report-book-button:hover, .remove-report-button:hover {
+.report-book-button:hover, .remove-report-button:hover, .remove-comment-button:hover {
     background-color: orangered
 }
 

@@ -55,8 +55,12 @@
                                 <div class="book-title">@book.Title</div>
                                 <div class="book-author">@string.Join(", ", book.Authors.Select(a => $"{a.FirstName} {a.LastName}"))</div>
                                 <div class="book-price">$@book.Price</div>
-                                <a hidden="hidden" id="read-@book.Id" type="button" class="read-book-button-link" asp-controller="Reader" asp-action="Book" asp-route-bookId="@book.Id" asp-route-page="@(book.CurrentPage <= 0 ? 1 : book.CurrentPage)">Read</a>
-                                <button type="button" class="read-book-button" onclick="document.getElementById('read-@book.Id').click()"><i class="fa fa-book" aria-hidden="true"></i></button>
+                                <div>
+                                    <a hidden="hidden" id="rate-@book.Id" type="button" class="rate-book-button-link" asp-controller="Book" asp-action="RateBook" asp-route-bookId="@book.Id">Rate</a>
+                                    <button type="button" class="rate-book-button" onclick="document.getElementById('rate-@book.Id').click()"><i class="fa fa-star-half-o" aria-hidden="true"></i></button>
+                                    <a hidden="hidden" id="read-@book.Id" type="button" class="read-book-button-link" asp-controller="Reader" asp-action="Book" asp-route-bookId="@book.Id" asp-route-page="@(book.CurrentPage <= 0 ? 1 : book.CurrentPage)">Read</a>
+                                    <button type="button" class="read-book-button" onclick="document.getElementById('read-@book.Id').click()"><i class="fa fa-book" aria-hidden="true"></i></button>
+                                </div>
                             </div>
                         </div>
                     }

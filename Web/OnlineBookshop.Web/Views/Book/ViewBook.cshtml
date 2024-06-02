@@ -126,10 +126,14 @@
             <div>@rate.Rating</div>
             <div>@Html.Raw(GetStars(rate.Rating))</div>
         </div>
-        <div>@rate.Comment</div>
-         <a hidden="hidden" id="remove-comment-@rate.Id" type="button" class="remove-comment-button-link" asp-controller="Book" asp-action="DeleteComment" asp-route-rateId="@rate.Id">Delete Comment</a>
-         <button type="button" class="remove-comment-button" data-bs-toggle="modal" data-bs-target="#delete-comment-modal"><i class="fa-solid fa-trash"></i></button>
-
+        <div style="display: flex;   align-items: center;   gap: 15px;">
+            <div>@rate.Comment</div>
+            @if (User.IsInRole("Administrator") && !string.IsNullOrEmpty(rate.Comment))
+            {
+                <a hidden="hidden" id="remove-comment-@rate.Id" type="button" class="remove-comment-button-link" asp-controller="Book" asp-action="DeleteComment" asp-route-rateId="@rate.Id">Delete Comment</a>
+                <button type="button" class="remove-comment-button" data-bs-toggle="modal" data-bs-target="#delete-comment-modal"><i class="fa-solid fa-trash"></i></button>
+            }
+         </div>
         <!-- Modal -->
          <div class="modal fade" id="delete-comment-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
